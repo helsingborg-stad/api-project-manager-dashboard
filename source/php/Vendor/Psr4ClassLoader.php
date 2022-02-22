@@ -1,6 +1,6 @@
 <?php
 
-namespace {{BPREPLACENAMESPACE}}\Vendor;
+namespace ApiProjectManagerDashboard\Vendor;
 
 /**
  * A PSR-4 compatible class loader.

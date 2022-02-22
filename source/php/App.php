@@ -1,6 +1,6 @@
 <?php
 
-namespace {{BPREPLACENAMESPACE}};
+namespace ApiProjectManagerDashboard;
 
 class App
 {
@@ -17,9 +17,9 @@ class App
     public function enqueueStyles()
     {
         wp_register_style(
-            '{{BPREPLACESLUG}}-css',
-            {{BPREPLACECAPSCONSTANT}}_URL . '/dist/' .
-            \{{BPREPLACENAMESPACE}}\Helper\CacheBust::name('css/{{BPREPLACESLUG}}.css')
+            'api-project-manager-dashboard-css',
+            API_PROJECT_MANAGER_DASHBOARD_URL . '/dist/' .
+            \ApiProjectManagerDashboard\Helper\CacheBust::name('css/api-project-manager-dashboard.css')
         );
     }
 
@@ -30,9 +30,9 @@ class App
     public function enqueueScripts()
     {
         wp_register_script(
-            '{{BPREPLACESLUG}}-js',
-            {{BPREPLACECAPSCONSTANT}}_URL . '/dist/' .
-            \{{BPREPLACENAMESPACE}}\Helper\CacheBust::name('js/{{BPREPLACESLUG}}.js')
+            'api-project-manager-dashboard-js',
+            API_PROJECT_MANAGER_DASHBOARD_URL . '/dist/' .
+            \ApiProjectManagerDashboard\Helper\CacheBust::name('js/api-project-manager-dashboard.js')
         );
     }
 }

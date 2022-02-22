@@ -1,6 +1,6 @@
 <?php
 
-namespace {{BPREPLACENAMESPACE}}\Helper;
+namespace ApiProjectManagerDashboard\Helper;
 
 class CacheBust
 {
@@ -31,12 +31,12 @@ class CacheBust
      */
     public static function getRevManifest()
     {
-        $jsonPath = {{BPREPLACECAPSCONSTANT}}_PATH . apply_filters('{{BPREPLACENAMESPACE}}/Helper/CacheBust/RevManifestPath', 'dist/rev-manifest.json');
+        $jsonPath = API_PROJECT_MANAGER_DASHBOARD_PATH . apply_filters('ApiProjectManagerDashboard/Helper/CacheBust/RevManifestPath', 'dist/rev-manifest.json');
 
         if (file_exists($jsonPath)) {
             return json_decode(file_get_contents($jsonPath), true);
         } elseif (WP_DEBUG) {
-            echo '<div style="color:red">Error: Assets not built. Go to ' . {{BPREPLACECAPSCONSTANT}}_PATH . ' and run gulp. See '. {{BPREPLACECAPSCONSTANT}}_PATH . 'README.md for more info.</div>';
+            echo '<div style="color:red">Error: Assets not built. Go to ' . API_PROJECT_MANAGER_DASHBOARD_PATH . ' and run gulp. See '. API_PROJECT_MANAGER_DASHBOARD_PATH . 'README.md for more info.</div>';
         }
     }
 }
