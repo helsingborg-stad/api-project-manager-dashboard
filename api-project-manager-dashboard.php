@@ -2,11 +2,11 @@
 
 /**
  * Plugin Name:       API Project Manager Dashboard
- * Plugin URI:        https://github.com/nRamstedt/api-project-manager-dashboard
+ * Plugin URI:        https://github.com/helsingborg-stad/api-project-manager-dashboard
  * Description:       Dashboard plugin for project related data.
  * Version:           1.0.0
  * Author:            Nikolas Ramstedt @ Helsingborg Stad
- * Author URI:        https://github.com/nRamstedt
+ * Author URI:        https://github.com/helsingborg-stad
  * License:           MIT
  * License URI:       https://opensource.org/licenses/MIT
  * Text Domain:       mod-api-project-manager-dashboard

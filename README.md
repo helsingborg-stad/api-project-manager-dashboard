@@ -9,9 +9,9 @@
 <p>
   Dashboard plugin for project related data.
   <br />
-  <a href="https://github.com/nRamstedt/api-project-manager-dashboard/issues">Report Bug</a>
+  <a href="https://github.com/helsingborg-stad/api-project-manager-dashboard/issues">Report Bug</a>
   ·
-  <a href="https://github.com/nRamstedt/api-project-manager-dashboard/issues">Request Feature</a>
+  <a href="https://github.com/helsingborg-stad/api-project-manager-dashboard/issues">Request Feature</a>
 </p>
 
 ## Table of Contents
@@ -60,7 +60,7 @@ brew install node
 
 1. Clone the repo
 ```sh
-git clone https://github.com/nRamstedt/api-project-manager-dashboard.git
+git clone https://github.com/helsingborg-stad/api-project-manager-dashboard.git
 ```
 2. Install and build NPM packages
 ```sh
@@ -106,14 +106,14 @@ Distributed under the [MIT License][license-url].
 
 <!-- MARKDOWN LINKS & IMAGES -->
 <!-- https://www.markdownguide.org/basic-syntax/#reference-style-links -->
-[contributors-shield]: https://img.shields.io/github/contributors/nRamstedt/api-project-manager-dashboard.svg?style=flat-square
-[contributors-url]: https://github.com/nRamstedt/api-project-manager-dashboard/graphs/contributors
-[forks-shield]: https://img.shields.io/github/forks/nRamstedt/api-project-manager-dashboard.svg?style=flat-square
-[forks-url]: https://github.com/nRamstedt/api-project-manager-dashboard/network/members
-[stars-shield]: https://img.shields.io/github/stars/nRamstedt/api-project-manager-dashboard.svg?style=flat-square
-[stars-url]: https://github.com/nRamstedt/api-project-manager-dashboard/stargazers
-[issues-shield]: https://img.shields.io/github/issues/nRamstedt/api-project-manager-dashboard.svg?style=flat-square
-[issues-url]: https://github.com/nRamstedt/api-project-manager-dashboard/issues
-[license-shield]: https://img.shields.io/github/license/nRamstedt/api-project-manager-dashboard.svg?style=flat-square
-[license-url]: https://raw.githubusercontent.com/nRamstedt/api-project-manager-dashboard/master/LICENSE
+[contributors-shield]: https://img.shields.io/github/contributors/helsingborg-stad/api-project-manager-dashboard.svg?style=flat-square
+[contributors-url]: https://github.com/helsingborg-stad/api-project-manager-dashboard/graphs/contributors
+[forks-shield]: https://img.shields.io/github/forks/helsingborg-stad/api-project-manager-dashboard.svg?style=flat-square
+[forks-url]: https://github.com/helsingborg-stad/api-project-manager-dashboard/network/members
+[stars-shield]: https://img.shields.io/github/stars/helsingborg-stad/api-project-manager-dashboard.svg?style=flat-square
+[stars-url]: https://github.com/helsingborg-stad/api-project-manager-dashboard/stargazers
+[issues-shield]: https://img.shields.io/github/issues/helsingborg-stad/api-project-manager-dashboard.svg?style=flat-square
+[issues-url]: https://github.com/helsingborg-stad/api-project-manager-dashboard/issues
+[license-shield]: https://img.shields.io/github/license/helsingborg-stad/api-project-manager-dashboard.svg?style=flat-square
+[license-url]: https://raw.githubusercontent.com/helsingborg-stad/api-project-manager-dashboard/master/LICENSE
 [product-screenshot]: images/screenshot.png
