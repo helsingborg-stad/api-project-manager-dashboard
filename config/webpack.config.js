@@ -207,7 +207,7 @@ module.exports = function (webpackEnv) {
       // There will be one main bundle, and one file per asynchronous chunk.
       // In development, it does not produce real files.
       filename: isEnvProduction
-        ? 'js/modularity-mhbooking.[contenthash:8].js'
+        ? 'js/modularity-api-project-manager-dashboard.[contenthash:8].js'
         : isEnvDevelopment && 'js/bundle.js',
       // There are also additional JS chunk files if you use code splitting.
       chunkFilename: isEnvProduction
@@ -623,7 +623,7 @@ module.exports = function (webpackEnv) {
         new MiniCssExtractPlugin({
           // Options similar to the same options in webpackOptions.output
           // both options are optional
-          filename: 'css/modularity-mhbooking.[contenthash:8].css',
+          filename: 'css/modularity-api-project-manager-dashboard.[contenthash:8].css',
           chunkFilename: 'css/[name].[contenthash:8].chunk.css',
         }),
       // Generate an asset manifest file with the following content:
@@ -638,7 +638,7 @@ module.exports = function (webpackEnv) {
         generate: (seed, files, entrypoints) => {
           const manifestFiles = files.reduce((manifest, file) => {
             const ext = file.path.substring(file.path.lastIndexOf('.') + 1);
-            const key = file.isInitial ? `${ext}/modularity-mhbooking.${ext}` : file.name;
+            const key = file.isInitial ? `${ext}/modularity-api-project-manager-dashboard.${ext}` : file.name;
             manifest[key] = file.path;
             return manifest;
           }, seed);
