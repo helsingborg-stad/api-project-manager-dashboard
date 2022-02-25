@@ -50,6 +50,11 @@ Thumbs.db
 dist/temp
 dist/.temp
 
+# ignore build folder
+build/
+build
+
+
 # -------------------------
 # BEGIN Whitelisted Files
 # -------------------------
