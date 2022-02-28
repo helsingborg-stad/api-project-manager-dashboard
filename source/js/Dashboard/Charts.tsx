@@ -3,9 +3,9 @@ import { Fragment, useCallback, useContext, useMemo } from "react";
 import InnovationProjectsContext, { InnovationProjectsDimensions } from "../innovation-api-client/InnovationProjectsContext";
 
 import { Chart as ChartJS, ArcElement, Tooltip, Legend, ChartData, CategoryScale, LinearScale, BarElement, Title, RadialLinearScale, PointElement, LineElement, Filler } from 'chart.js';
-import { Bar, Doughnut, Radar } from 'react-chartjs-2';
+import { Bar, Doughnut, PolarArea, Radar } from 'react-chartjs-2';
 import { InnovationProject, Taxonomy } from "../innovation-api-client/types";
-import { mapDoughnutData, mapRadarData, mapVerticalBarData } from "./charts/chart-data-adapter";
+import { mapDoughnutData, mapPolarData, mapRadarData, mapVerticalBarData } from "./charts/chart-data-adapter";
 
 ChartJS.register(ArcElement, Tooltip, Legend);
 ChartJS.register(
@@ -42,6 +42,7 @@ export default function Charts(): JSX.Element {
     const createDoughnutData = useCallback((label, getTaxonomy) => mapDoughnutData(label, dimensions, getTaxonomy), [dimensions])
     const createCreateVerticalbartData = useCallback((label, getTaxonomy) => mapVerticalBarData(label, dimensions, getTaxonomy), [dimensions])
     const createRadarData = useCallback((label, getTaxonomy) => mapRadarData(label, dimensions, getTaxonomy), [dimensions])
+    const createPolarData = useCallback((label, getTaxonomy) => mapPolarData(label, dimensions, getTaxonomy), [dimensions])
 
     const doughnutChart = (label: string, getTaxonomy: (project: InnovationProject) => Taxonomy[] | undefined) => (
         <ChartBox>
@@ -56,9 +57,18 @@ export default function Charts(): JSX.Element {
         <ChartBox>
             <Radar {...createRadarData(label, getTaxonomy)}/>
         </ChartBox>)
+    const polarAreaChart = (label: string, getTaxonomy: (project: InnovationProject) => Taxonomy[] | undefined) => (
+        <ChartBox>
+            <PolarArea {...createPolarData(label, getTaxonomy)}/>
+        </ChartBox>)
     
     return (
         <Fragment>
+            <ChartBoxContainer>
+                {polarAreaChart('Organisation', p => p.organisation)}
+                {polarAreaChart('Teknologi', p => p.technology)}
+                {polarAreaChart('Sektor', p => p.sector)}
+            </ChartBoxContainer>
             <ChartBoxContainer>
                 {radarChart('Platform', p => p.platforms)}
                 {radarChart('Teknologi', p => p.technology)}

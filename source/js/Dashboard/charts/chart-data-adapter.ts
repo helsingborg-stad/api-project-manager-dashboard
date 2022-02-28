@@ -1,11 +1,52 @@
 import { InnovationProjectsDimensions } from "../../innovation-api-client/InnovationProjectsContext";
 import { InnovationProject, Taxonomy } from "../../innovation-api-client/types";
 
+export function mapPolarData(
+  label: string,
+  dimensions: InnovationProjectsDimensions,
+  getTaxonomy: (project: InnovationProject) => Taxonomy[] | undefined) {
+  const {keys, values} = mapDimensionData(dimensions, getTaxonomy)
+
+  const data = {
+    labels: keys,
+    datasets: [
+      {
+        label,
+        data: values,
+        backgroundColor: [
+          'rgba(255, 99, 132, 0.5)',
+          'rgba(54, 162, 235, 0.5)',
+          'rgba(255, 206, 86, 0.5)',
+          'rgba(75, 192, 192, 0.5)',
+          'rgba(153, 102, 255, 0.5)',
+          'rgba(255, 159, 64, 0.5)',
+        ],
+        borderWidth: 1,
+      },
+    ],
+  }
+  return {data}
+}
+
 export function mapRadarData (
     label: string,
     dimensions: InnovationProjectsDimensions,
     getTaxonomy: (project: InnovationProject) => Taxonomy[] | undefined) {
     const {keys, values} = mapDimensionData(dimensions, getTaxonomy)
+
+    const options = {
+      responsive: true,
+      maintainAspectRatio: true,
+      scale: {
+        ticks: {
+          beginAtZero: true,
+          callback: (value: number) => `${value}           `,
+          min: -0.001,
+          max: 100
+        }
+      }
+    }
+
     const data = {
         labels: keys,
         datasets: [
@@ -18,7 +59,7 @@ export function mapRadarData (
           },
         ],
       };
-    return {data}
+    return {data, options}
 }
 
 export function mapVerticalBarData (
