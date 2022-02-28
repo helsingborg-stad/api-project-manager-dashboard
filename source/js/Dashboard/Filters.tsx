@@ -43,5 +43,10 @@ export default function Filters () {
                 {select('Globala mål', filters.globalGoals, dimensions.globalGoals, v => applyFilter({globalGoals: v}))}
                 {select('Utmaning', filters.challengeCategories, dimensions.challengeCategories, v => applyFilter({challengeCategories: v}))}
             </Box>
+            <Box sx={{ display: 'flex' }}>
+                {select('Platform', filters.platforms, dimensions.platforms, v => applyFilter({platforms: v}))}
+                {select('Engagemang', filters.residentInvolvments, dimensions.residentInvolvments, v => applyFilter({residentInvolvments: v}))}
+                {select('Påverkansmål', filters.impactGoals, dimensions.impactGoals, v => applyFilter({impactGoals: v}))}
+            </Box>
         </Fragment>)
 }

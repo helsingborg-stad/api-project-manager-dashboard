@@ -1,6 +1,26 @@
 import { InnovationProjectsDimensions } from "../../innovation-api-client/InnovationProjectsContext";
 import { InnovationProject, Taxonomy } from "../../innovation-api-client/types";
 
+export function mapRadarData (
+    label: string,
+    dimensions: InnovationProjectsDimensions,
+    getTaxonomy: (project: InnovationProject) => Taxonomy[] | undefined) {
+    const {keys, values} = mapDimensionData(dimensions, getTaxonomy)
+    const data = {
+        labels: keys,
+        datasets: [
+          {
+            label,
+            data: values,
+            backgroundColor: 'rgba(255, 99, 132, 0.2)',
+            borderColor: 'rgba(255, 99, 132, 1)',
+            borderWidth: 1,
+          },
+        ],
+      };
+    return {data}
+}
+
 export function mapVerticalBarData (
     label: string,
     dimensions: InnovationProjectsDimensions,

@@ -4,15 +4,15 @@ import { InnovationProject, Taxonomy } from "./types";
 
 interface InnovationProjectAxisNames {
     challengeCategories: 'placeholder name for axis in data and filters';
-    technologies: 'placeholder name for axis in data and filters',
-    sectors: 'placeholder name for axis in data and filters',
-    organisations: 'placeholder name for axis in data and filters',
     globalGoals: 'placeholder name for axis in data and filters',
-    partners: 'placeholder name for axis in data and filters',
     impactGoals: 'placeholder name for axis in data and filters',
-    residentInvolvments: 'placeholder name for axis in data and filters',
-    challenges: 'placeholder name for axis in data and filters',
+    organisations: 'placeholder name for axis in data and filters',
+    partners: 'placeholder name for axis in data and filters',
     platforms: 'placeholder name for axis in data and filters'
+    residentInvolvments: 'placeholder name for axis in data and filters',
+    sectors: 'placeholder name for axis in data and filters',
+    technologies: 'placeholder name for axis in data and filters',
+    // challenges: 'placeholder name for axis in data and filters',
 }
 
 export type InnovationProjectsFilters = {
@@ -59,7 +59,25 @@ type InnovationProjectsReducerAction = (state: InnovationProjectsReducerState) =
 
 const innovationProjectsReducer = (state: InnovationProjectsReducerState, mutate: InnovationProjectsReducerAction): InnovationProjectsReducerState => mutate(state)
 
+function getProjectDerivedNames<T>(
+    projects: InnovationProject[],
+    getProjectItems: (project: InnovationProject) => T[] | undefined,
+    getProjectItemName: (item: T) => string
+): string[] {
+    const s = new Set<string>() 
+    projects.forEach(p => (getProjectItems(p) || []).forEach(item => s.add(getProjectItemName(item)))) 
+    let names = Array.from(s.values())
+    names.sort()
+    return names
+}
 
+function getTaxonomyNames(
+    projects: InnovationProject[], 
+    getTaxonomy: (p: InnovationProject) => Taxonomy[]
+    ): string[] {
+    return getProjectDerivedNames(projects, getTaxonomy, t => t.name)
+}
+/*
 function getTaxonomyNames (projects: InnovationProject[], getTaxonomy: (p: InnovationProject) => Taxonomy[]): string[] {
     const s = new Set<string>() 
     projects.forEach(p => getTaxonomy(p).forEach(t => s.add(t.name))) 
@@ -67,17 +85,26 @@ function getTaxonomyNames (projects: InnovationProject[], getTaxonomy: (p: Innov
     names.sort()
     return names
 }
+*/
 
 function createDimensions (projects: InnovationProject[], filters: InnovationProjectsFilters) {
+    const matchDerived = <T>(
+        value: string|undefined, 
+        items: T[]|undefined,
+        getName: (item: T) => string) => !value || items?.some(item => getName(item) === value)
     const matchTaxonomy = (value: string|undefined, taxonomies: Taxonomy[]|undefined) => !value || taxonomies?.some(t => t.name === value)
     const filterProjects = (projects: InnovationProject[]) => projects.filter(p => 
         matchTaxonomy(filters.challengeCategories, p.challenge_category)
         && matchTaxonomy(filters.globalGoals, p.global_goal)
+        && matchDerived(filters.impactGoals, p.impact_goals, g => g.impact_goal)
         && matchTaxonomy(filters.organisations, p.organisation)
         && matchTaxonomy(filters.partners, p.partner)
+        && matchTaxonomy(filters.platforms, p.platforms)
+        && matchDerived(filters.residentInvolvments, p.resident_involvement, ri => ri.description)
         && matchTaxonomy(filters.sectors, p.sector)
         && matchTaxonomy(filters.technologies, p.technology)
     )
+
     const createFilteredDimensions = (projects: InnovationProject[]) => {
         const lookupBy = (getKeys: (project: InnovationProject) => string[]): Record<string, InnovationProject[]> => 
             projects
@@ -97,10 +124,13 @@ function createDimensions (projects: InnovationProject[], filters: InnovationPro
             projects,
             challengeCategories: getTaxonomyNames(projects, p => p.challenge_category || []),
             globalGoals: getTaxonomyNames(projects, p => p.global_goal || []),
+            impactGoals: getProjectDerivedNames(projects, p => p.impact_goals, g => g.impact_goal),
             organisations: getTaxonomyNames(projects, p => p.organisation || []),
             partners: getTaxonomyNames(projects, p => p.partner || []),
+            platforms: getTaxonomyNames(projects, p => p.platforms || []),
+            residentInvolvments: getProjectDerivedNames(projects, p => p.resident_involvement, ri => ri.description),
             sectors: getTaxonomyNames(projects, p => p.sector || []),
-            technologies: getTaxonomyNames(projects, p => p.technology || [])
+            technologies: getTaxonomyNames(projects, p => p.technology || []),
         }
         return dimensions
     }
