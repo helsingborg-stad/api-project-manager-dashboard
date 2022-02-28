@@ -39,6 +39,9 @@ export function mapDoughnutData (
     getTaxonomy: (project: InnovationProject) => Taxonomy[] | undefined) {
     const {keys, values} = mapDimensionData(dimensions, getTaxonomy)
     return {
+        options: {
+            responsive: true
+        },
         data: {
             labels: keys,
             datasets: [{

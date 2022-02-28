@@ -1,4 +1,4 @@
-import { Box } from "@mui/material";
+import { Box, styled } from "@mui/material";
 import { Fragment, useCallback, useContext, useMemo } from "react";
 import InnovationProjectsContext, { InnovationProjectsDimensions } from "../innovation-api-client/InnovationProjectsContext";
 
@@ -17,34 +17,40 @@ ChartJS.register(
     Legend
   );
   
+  const ChartBoxContainer = styled(Box)(({ theme }) => ({
+    [theme.breakpoints.up('md')]: {
+        display: 'flex',
+        justifyContent: 'space-around'
+    },
+  }))
+  const ChartBox = styled(Box)(({ theme }) => ({
+    [theme.breakpoints.up('md')]: {
+        flex: '1 1 auto'
+    },
+  }))
+
 export default function Charts(): JSX.Element {
     const {dimensions} = useContext(InnovationProjectsContext)
 
     const createDoughnutData = useCallback((label, getTaxonomy) => mapDoughnutData(label, dimensions, getTaxonomy), [dimensions])
     const createCreateVerticalbartData = useCallback((label, getTaxonomy) => mapVerticalBarData(label, dimensions, getTaxonomy), [dimensions])
     const doughnutChart = (label: string, getTaxonomy: (project: InnovationProject) => Taxonomy[] | undefined) => (
-        <Box sx={{ 
-            height: '480px',
-            flex: '0 0 auto'
-         }}>
+        <ChartBox>
             <Doughnut {...createDoughnutData(label, getTaxonomy)}/>
-        </Box>)
+        </ChartBox>)
 
     const verticalBarChart = (label: string, getTaxonomy: (project: InnovationProject) => Taxonomy[] | undefined) => (
-        <Box sx={{ 
-            height: '4880px',
-            flex: '0 0 auto'
-        }}>
+        <ChartBox>
             <Bar {...createCreateVerticalbartData(label, getTaxonomy)}/>
-        </Box>)
+        </ChartBox>)
     
     return (
         <Fragment>
-            <Box sx={{ display: 'flex', justifyContent: 'space-around' }}>
+            <ChartBoxContainer>
                 {doughnutChart('Organisation', p => p.organisation)}
                 {doughnutChart('Teknologi', p => p.technology)}
                 {doughnutChart('Sektor', p => p.sector)}
-            </Box>
+            </ChartBoxContainer>
             <Box sx={{ display: 'flex', justifyContent: 'space-around' }}>
                 {verticalBarChart('Globala mål', p => p.global_goal)}
                 {verticalBarChart('Partner', p => p.partner)}
