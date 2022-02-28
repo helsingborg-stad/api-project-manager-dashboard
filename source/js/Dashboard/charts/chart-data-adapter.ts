@@ -1,11 +1,11 @@
-import { InnovationProjectsDimensions } from "../../innovation-api-client/InnovationProjectsContext";
+import { DashboardGraph, DashboardProject } from "../DashboardContext";
 import { InnovationProject, Taxonomy } from "../../innovation-api-client/types";
 
 export function mapPolarData(
   label: string,
-  dimensions: InnovationProjectsDimensions,
-  getTaxonomy: (project: InnovationProject) => Taxonomy[] | undefined) {
-  const {keys, values} = mapDimensionData(dimensions, getTaxonomy)
+  dimensions: DashboardGraph,
+  getKeys: (project: DashboardProject) => string[]) {
+  const {keys, values} = mapDimensionData(dimensions, getKeys)
 
   const data = {
     labels: keys,
@@ -30,9 +30,9 @@ export function mapPolarData(
 
 export function mapRadarData (
     label: string,
-    dimensions: InnovationProjectsDimensions,
-    getTaxonomy: (project: InnovationProject) => Taxonomy[] | undefined) {
-    const {keys, values} = mapDimensionData(dimensions, getTaxonomy)
+    dimensions: DashboardGraph,
+    getKeys: (project: DashboardProject) => string[]) {
+    const {keys, values} = mapDimensionData(dimensions, getKeys)
 
     const options = {
       responsive: true,
@@ -64,9 +64,9 @@ export function mapRadarData (
 
 export function mapVerticalBarData (
     label: string,
-    dimensions: InnovationProjectsDimensions,
-    getTaxonomy: (project: InnovationProject) => Taxonomy[] | undefined) {
-    const {keys, values} = mapDimensionData(dimensions, getTaxonomy)
+    dimensions: DashboardGraph,
+    getKeys: (project: DashboardProject) => string[]) {
+    const {keys, values} = mapDimensionData(dimensions, getKeys)
     
     const options = {
         responsive: true,
@@ -96,9 +96,9 @@ export function mapVerticalBarData (
 }
 export function mapDoughnutData (
     label: string,
-    dimensions: InnovationProjectsDimensions,
-    getTaxonomy: (project: InnovationProject) => Taxonomy[] | undefined) {
-    const {keys, values} = mapDimensionData(dimensions, getTaxonomy)
+    dimensions: DashboardGraph,
+    getKeys: (project: DashboardProject) => string[]) {
+    const {keys, values} = mapDimensionData(dimensions, getKeys)
     return {
         options: {
             responsive: true
@@ -133,10 +133,9 @@ export function mapDoughnutData (
 
 
 function mapDimensionData (
-    dimensions: InnovationProjectsDimensions,
-    getTaxonomy: (project: InnovationProject) => Taxonomy[] | undefined) {
-    
-    const lookup = dimensions.lookupBy(project => (getTaxonomy(project) || []).map(t => t.name))
+    dimensions: DashboardGraph,
+    getKeys: (project: DashboardProject) => string[]) {
+    const lookup = dimensions.lookupBy(project => (getKeys(project) || []))
     return {
         keys: Object.keys(lookup),
         values: Object.values(lookup).map(projects => projects.length)

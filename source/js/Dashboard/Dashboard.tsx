@@ -1,7 +1,7 @@
 import { Box } from "@mui/material";
 import { useLayoutEffect, useState } from "react";
 import { createInnovationProjectRepository } from "../innovation-api-client/InnovationProjectRepository";
-import InnovationProjectsContext, { useInnovationProjects } from "../innovation-api-client/InnovationProjectsContext";
+import DashboardContext, { useDashboard } from "./DashboardContext";
 import Charts from "./Charts";
 import Filters from "./Filters";
 
@@ -11,12 +11,12 @@ export interface DashboardPropsType {
 }
 export default function Dashboard ({endpoint}: DashboardPropsType): JSX.Element {
     const [repository] = useState(createInnovationProjectRepository(endpoint))
-    const provider = useInnovationProjects(repository)
+    const provider = useDashboard(repository)
 
     useLayoutEffect(() => provider.requestLoadProjects())
 
-    return <InnovationProjectsContext.Provider value={provider}>
+    return <DashboardContext.Provider value={provider}>
         <Filters />
         <Charts />
-    </InnovationProjectsContext.Provider>
+    </DashboardContext.Provider>
 }

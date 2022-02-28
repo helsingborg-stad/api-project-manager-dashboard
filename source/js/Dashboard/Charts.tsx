@@ -1,6 +1,6 @@
 import { Box, styled } from "@mui/material";
 import { Fragment, useCallback, useContext, useMemo } from "react";
-import InnovationProjectsContext, { InnovationProjectsDimensions } from "../innovation-api-client/InnovationProjectsContext";
+import DashboardContext, { DashboardGraph, DashboardProject } from "./DashboardContext";
 
 import { Chart as ChartJS, ArcElement, Tooltip, Legend, ChartData, CategoryScale, LinearScale, BarElement, Title, RadialLinearScale, PointElement, LineElement, Filler } from 'chart.js';
 import { Bar, Doughnut, PolarArea, Radar } from 'react-chartjs-2';
@@ -37,27 +37,27 @@ ChartJS.register(
   }))
 
 export default function Charts(): JSX.Element {
-    const {dimensions} = useContext(InnovationProjectsContext)
+    const {graph} = useContext(DashboardContext)
 
-    const createDoughnutData = useCallback((label, getTaxonomy) => mapDoughnutData(label, dimensions, getTaxonomy), [dimensions])
-    const createCreateVerticalbartData = useCallback((label, getTaxonomy) => mapVerticalBarData(label, dimensions, getTaxonomy), [dimensions])
-    const createRadarData = useCallback((label, getTaxonomy) => mapRadarData(label, dimensions, getTaxonomy), [dimensions])
-    const createPolarData = useCallback((label, getTaxonomy) => mapPolarData(label, dimensions, getTaxonomy), [dimensions])
+    const createDoughnutData = useCallback((label, getTaxonomy) => mapDoughnutData(label, graph, getTaxonomy), [graph])
+    const createCreateVerticalbartData = useCallback((label, getTaxonomy) => mapVerticalBarData(label, graph, getTaxonomy), [graph])
+    const createRadarData = useCallback((label, getTaxonomy) => mapRadarData(label, graph, getTaxonomy), [graph])
+    const createPolarData = useCallback((label, getTaxonomy) => mapPolarData(label, graph, getTaxonomy), [graph])
 
-    const doughnutChart = (label: string, getTaxonomy: (project: InnovationProject) => Taxonomy[] | undefined) => (
+    const doughnutChart = (label: string, getTaxonomy: (project: DashboardProject) => string[]) => (
         <ChartBox>
             <Doughnut {...createDoughnutData(label, getTaxonomy)}/>
         </ChartBox>)
 
-    const verticalBarChart = (label: string, getTaxonomy: (project: InnovationProject) => Taxonomy[] | undefined) => (
+    const verticalBarChart = (label: string, getTaxonomy: (project: DashboardProject) => string[]) => (
         <ChartBox>
             <Bar {...createCreateVerticalbartData(label, getTaxonomy)}/>
         </ChartBox>)
-    const radarChart = (label: string, getTaxonomy: (project: InnovationProject) => Taxonomy[] | undefined) => (
+    const radarChart = (label: string, getTaxonomy: (project: DashboardProject) => string[]) => (
         <ChartBox>
             <Radar {...createRadarData(label, getTaxonomy)}/>
         </ChartBox>)
-    const polarAreaChart = (label: string, getTaxonomy: (project: InnovationProject) => Taxonomy[] | undefined) => (
+    const polarAreaChart = (label: string, getTaxonomy: (project: DashboardProject) => string[]) => (
         <ChartBox>
             <PolarArea {...createPolarData(label, getTaxonomy)}/>
         </ChartBox>)
@@ -65,23 +65,23 @@ export default function Charts(): JSX.Element {
     return (
         <Fragment>
             <ChartBoxContainer>
-                {polarAreaChart('Organisation', p => p.organisation)}
-                {polarAreaChart('Teknologi', p => p.technology)}
-                {polarAreaChart('Sektor', p => p.sector)}
+                {polarAreaChart('Organisation', p => p.organisations)}
+                {polarAreaChart('Teknologi', p => p.technologies)}
+                {polarAreaChart('Sektor', p => p.sectors)}
             </ChartBoxContainer>
             <ChartBoxContainer>
                 {radarChart('Platform', p => p.platforms)}
-                {radarChart('Teknologi', p => p.technology)}
-                {radarChart('Sektor', p => p.sector)}
+                {radarChart('Teknologi', p => p.technologies)}
+                {radarChart('Sektor', p => p.sectors)}
             </ChartBoxContainer>
             <ChartBoxContainer>
-                {doughnutChart('Organisation', p => p.organisation)}
-                {doughnutChart('Teknologi', p => p.technology)}
-                {doughnutChart('Sektor', p => p.sector)}
+                {doughnutChart('Organisation', p => p.organisations)}
+                {doughnutChart('Teknologi', p => p.technologies)}
+                {doughnutChart('Sektor', p => p.sectors)}
             </ChartBoxContainer>
             <Box sx={{ display: 'flex', justifyContent: 'space-around' }}>
-                {verticalBarChart('Globala mål', p => p.global_goal)}
-                {verticalBarChart('Partner', p => p.partner)}
+                {verticalBarChart('Globala mål', p => p.globalGoals)}
+                {verticalBarChart('Partner', p => p.partners)}
                 {verticalBarChart('Plattform', p => p.platforms)}
             </Box>
         </Fragment>)

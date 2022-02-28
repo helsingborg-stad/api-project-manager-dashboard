@@ -1,14 +1,14 @@
 import { Autocomplete, Box, FormControl, Link, TextField, Typography } from "@mui/material";
 import { Fragment, useContext } from "react";
-import InnovationProjectsContext from "../innovation-api-client/InnovationProjectsContext";
+import DashboardContext from "./DashboardContext";
 
 export default function Filters () {
     const {
-        dimensions,
+        graph: dimensions,
         filters,
         applyFilter,
         resetFilter
-    } = useContext(InnovationProjectsContext)
+    } = useContext(DashboardContext)
 
     const select = (label: string, value: string|undefined, values: string[]|undefined, setValue: (value: string) => unknown) => (
         <FormControl fullWidth sx={{ margin: '0.5em' }}>
