@@ -26,8 +26,12 @@ module.exports = {
    * Entry files - Add more entries if needed.
    */
   entry: {
-    'js/api-project-manager-dashboard': './source/js/api-project-manager-dashboard.js',
+    'js/api-project-manager-dashboard': './source/js/api-project-manager-dashboard.ts',
     'css/api-project-manager-dashboard': './source/sass/api-project-manager-dashboard.scss',
+  },
+
+  resolve: {
+    extensions: ['.tsx', '.ts', '.js'],
   },
 
   /**
@@ -45,6 +49,11 @@ module.exports = {
   },
   module: {
     rules: [
+      {
+        test: /\.tsx?$/,
+        use: 'ts-loader',
+        exclude: /node_modules/,
+      },
       /**
        * Babel
        */
