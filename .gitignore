@@ -62,3 +62,4 @@ build
 # track these files, if they exist
 !.gitignore
 !.editorconfig
+!source/js
