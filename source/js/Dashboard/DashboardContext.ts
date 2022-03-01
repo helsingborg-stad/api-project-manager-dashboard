@@ -5,28 +5,32 @@ import { InnovationProject, Taxonomy } from "../innovation-api-client/types";
 /**
  * Common layout for projects and filters
  */
-export interface DashboardProjectDataProps<T> {
-    challengeCategories: T;
-    globalGoals: T,
-    impactGoals: T,
-    organisations: T,
-    partners: T,
-    platforms: T
-    residentInvolvments: T,
-    sectors: T,
-    status: T,
-    technologies: T,
-}
+
+export type DashboardDataPropertyName = 
+    'challengeCategories'
+    | 'globalGoals'
+    | 'impactGoals'
+    | 'organisations'
+    | 'partners'
+    | 'platforms'
+    | 'residentInvolvments'
+    | 'sectors'
+    | 'status'
+    | 'technologies'
+
+export interface DashboardProjectDataProps<T> extends Record<DashboardDataPropertyName, T> {}
+    
 
 // Mapped from project in WP
 export interface DashboardProject extends DashboardProjectDataProps<string[]> {
+    slug: string
 }
 
 // Contains user selected filter values 
 export interface DashboardFilter extends DashboardProjectDataProps<string> {
 }
 
-// Given a selection from filters, contains all reacahble projects and 
+// Given a selection from filters, contains all reachable projects and 
 // filtervalues used by those projects
 export interface DashboardGraph extends DashboardProjectDataProps<string[]> {
     projects: DashboardProject[],
@@ -47,7 +51,7 @@ export interface DashboardContextType {
     resetFilter: () => void
 }
 
-const createEmptyFilters = (): DashboardFilter => ({
+export const createEmptyFilters = (): DashboardFilter => ({
     challengeCategories: '',
     globalGoals: '',
     impactGoals: '',
@@ -58,8 +62,8 @@ const createEmptyFilters = (): DashboardFilter => ({
     sectors: '',
     status: '',
     technologies: ''      
-}
-)
+})
+
 const DashboardContext = createContext<DashboardContextType>({
     error: null,
     projects: [],
@@ -83,7 +87,7 @@ type DashboardReducerAction = (state: DashboardReducerState) => DashboardReducer
 const dashboardReducer = (state: DashboardReducerState, mutate: DashboardReducerAction): DashboardReducerState => mutate(state)
 
 
-function createGraph (projects: DashboardProject[], filters: DashboardFilter) {
+export function createGraph (projects: DashboardProject[], filters: DashboardFilter) {
     const match = (value: string|undefined, values: string[]) => !value || values.includes(value)
     const filterProjects = (projects: DashboardProject[]) => projects.filter(p => 
         match(filters.challengeCategories, p.challengeCategories)
@@ -196,6 +200,7 @@ export function useDashboard (repository: InnovationProjectRepository): Dashboar
 
 export function mapInnovationProjectToDashboardProject (project: InnovationProject): DashboardProject {
     const decodeName = (name: string) => name.replace('&amp;', '&')
+
     const names = <T>(list: T[]|undefined, getName: (item: T) => string): string[] =>
         (list || [])
         .map(getName)
@@ -205,6 +210,7 @@ export function mapInnovationProjectToDashboardProject (project: InnovationProje
     const taxonomyNames = (list: Taxonomy[]|undefined): string[] => names(list, t => t.name)
 
     return {
+        slug: project.slug,
         challengeCategories: taxonomyNames(project.challenge_category),
         globalGoals: taxonomyNames(project.global_goal),
         impactGoals: names(project.impact_goals, g => g.impact_goal),
