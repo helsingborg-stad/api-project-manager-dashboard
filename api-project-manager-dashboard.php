@@ -35,13 +35,15 @@ $loader->addPrefix('ApiProjectManagerDashboard', API_PROJECT_MANAGER_DASHBOARD_P
 $loader->register();
 
 // Acf auto import and export
-$acfExportManager = new \AcfExportManager\AcfExportManager();
-$acfExportManager->setTextdomain(API_PROJECT_MANAGER_DASHBOARD_TEXT_DOMAIN);
-$acfExportManager->setExportFolder(API_PROJECT_MANAGER_DASHBOARD_PATH . 'source/php/AcfFields/');
-$acfExportManager->autoExport(array(
-    'api-project-manager-dashboard-settings' => 'group_621e561328bf3' //Update with acf id here, settings view
-));
-$acfExportManager->import();
+add_action('plugins_loaded', function () {
+    $acfExportManager = new \AcfExportManager\AcfExportManager();
+    $acfExportManager->setTextdomain(API_PROJECT_MANAGER_DASHBOARD_TEXT_DOMAIN);
+    $acfExportManager->setExportFolder(API_PROJECT_MANAGER_DASHBOARD_PATH . 'source/php/AcfFields/');
+    $acfExportManager->autoExport(array(
+        'api-project-manager-dashboard-settings' => 'group_621e561328bf3' //Update with acf id here, settings view
+    ));
+    $acfExportManager->import();
+});
 
 // Start application
 new ApiProjectManagerDashboard\App();
