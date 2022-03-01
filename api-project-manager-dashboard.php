@@ -9,7 +9,7 @@
  * Author URI:        https://github.com/helsingborg-stad
  * License:           MIT
  * License URI:       https://opensource.org/licenses/MIT
- * Text Domain:       mod-api-project-manager-dashboard
+ * Text Domain:       api-project-manager-dashboard
  * Domain Path:       /languages
  */
 
@@ -23,7 +23,7 @@ define('API_PROJECT_MANAGER_DASHBOARD_URL', plugins_url('', __FILE__));
 define('API_PROJECT_MANAGER_DASHBOARD_TEMPLATE_PATH', API_PROJECT_MANAGER_DASHBOARD_PATH . 'templates/');
 define('API_PROJECT_MANAGER_DASHBOARD_TEXT_DOMAIN', 'api-project-manager-dashboard');
 
-load_plugin_textdomain(API_PROJECT_MANAGER_DASHBOARD_TEXT_DOMAIN, false, plugin_basename(dirname(__FILE__)) . '/languages');
+load_plugin_textdomain(API_PROJECT_MANAGER_DASHBOARD_TEXT_DOMAIN, false, API_PROJECT_MANAGER_DASHBOARD_PATH . '/languages');
 
 require_once API_PROJECT_MANAGER_DASHBOARD_PATH . 'source/php/Vendor/Psr4ClassLoader.php';
 require_once API_PROJECT_MANAGER_DASHBOARD_PATH . 'Public.php';
