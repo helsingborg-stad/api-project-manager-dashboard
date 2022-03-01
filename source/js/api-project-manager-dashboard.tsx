@@ -5,10 +5,10 @@ import App from './App';
 const DASHBOARD_ENTRY_SELECTOR = '.js-api-project-manager-dashboard';
 const DASHBOARD_API_URL_ATTRIBUTE = 'data-api-url';
 
-const renderDashboard = (element: Element) => {
+const renderDashboard = (element: Element, url: string) => {
   ReactDOM.render(
     <React.StrictMode>
-      <App apiUrl={element.getAttribute(DASHBOARD_API_URL_ATTRIBUTE) ?? ''} />
+      <App apiUrl={url} />
     </React.StrictMode>,
     element,
   );
@@ -17,6 +17,10 @@ const renderDashboard = (element: Element) => {
 document.addEventListener('DOMContentLoaded', function () {
   const dashboardElements = Array.from(document.querySelectorAll(DASHBOARD_ENTRY_SELECTOR) ?? []);
   dashboardElements
-    .filter((element: Element) => element.getAttribute(DASHBOARD_API_URL_ATTRIBUTE)?.length ?? -1 > 0)
-    .forEach(renderDashboard);
+    .map((element: Element) => ({
+      element: element,
+      url: element.getAttribute(DASHBOARD_API_URL_ATTRIBUTE) ?? '',
+    }))
+    .filter(({ url }) => url.length > 0)
+    .forEach(({ element, url }) => renderDashboard(element, url));
 });
