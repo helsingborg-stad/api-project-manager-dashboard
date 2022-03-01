@@ -2,20 +2,21 @@ import React from 'react';
 import ReactDOM from 'react-dom';
 import App from './App';
 
+const DASHBOARD_ENTRY_SELECTOR = '.js-api-project-manager-dashboard';
+const DASHBOARD_API_URL_ATTRIBUTE = 'data-api-url';
 
-const Test = (text: string): string => {
-  return `This is your text: ${text}`;
-};
-
-
-
-document.addEventListener('DOMContentLoaded', function(event) {
-  console.log(Test('lol'));
-
+const renderDashboard = (element: Element) => {
   ReactDOM.render(
     <React.StrictMode>
-      <App />
+      <App apiUrl={element.getAttribute(DASHBOARD_API_URL_ATTRIBUTE) ?? ''} />
     </React.StrictMode>,
-    document.getElementById('main-content')
+    element,
   );
+};
+
+document.addEventListener('DOMContentLoaded', function () {
+  const dashboardElements = Array.from(document.querySelectorAll(DASHBOARD_ENTRY_SELECTOR) ?? []);
+  dashboardElements
+    .filter((element: Element) => element.getAttribute(DASHBOARD_API_URL_ATTRIBUTE)?.length ?? -1 > 0)
+    .forEach(renderDashboard);
 });
