@@ -19,7 +19,7 @@ if (! defined('WPINC')) {
 }
 
 define('API_PROJECT_MANAGER_DASHBOARD_PATH', plugin_dir_path(__FILE__));
-define('API_PROJECT_MANAGER_DASHBOARD_URL', plugins_url('', __FILE__));
+define('API_PROJECT_MANAGER_DASHBOARD_URL', plugin_dir_url(__FILE__));
 define('API_PROJECT_MANAGER_DASHBOARD_TEMPLATE_PATH', API_PROJECT_MANAGER_DASHBOARD_PATH . 'templates/');
 define('API_PROJECT_MANAGER_DASHBOARD_TEXT_DOMAIN', 'api-project-manager-dashboard');
 
