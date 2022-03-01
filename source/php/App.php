@@ -88,7 +88,7 @@ class App
 
         wp_enqueue_script(
             'api-project-manager-dashboard-js',
-            API_PROJECT_MANAGER_DASHBOARD_URL . '/dist/' .
+            API_PROJECT_MANAGER_DASHBOARD_URL . 'dist/' .
             \ApiProjectManagerDashboard\Helper\CacheBust::name('js/api-project-manager-dashboard.js', false)
         );
     }
