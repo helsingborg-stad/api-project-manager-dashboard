@@ -1,6 +1,5 @@
 import { createContext, useCallback, useMemo, useReducer, useState } from "react";
-import { InnovationProjectRepository } from "../innovation-api-client/InnovationProjectRepository";
-import { InnovationProject, Taxonomy } from "../innovation-api-client/types";
+import { InnovationProjectRepository, WPProject } from "../innovation-api-client/InnovationProjectRepository";
 
 /**
  * Common layout for projects and filters
@@ -8,22 +7,27 @@ import { InnovationProject, Taxonomy } from "../innovation-api-client/types";
 
 export type DashboardDataPropertyName = 
     'challengeCategories'
+    | 'expectedImpacts'
     | 'globalGoals'
     | 'impactGoals'
+    | 'innovationPotentials'
     | 'organisations'
+    | 'participants'
     | 'partners'
-    | 'platforms'
-    | 'residentInvolvments'
+    // | 'platforms'
+    // | 'residentInvolvments'
     | 'sectors'
     | 'status'
     | 'technologies'
+    | 'challenges'
 
 export interface DashboardProjectDataProps<T> extends Record<DashboardDataPropertyName, T> {}
-    
 
 // Mapped from project in WP
 export interface DashboardProject extends DashboardProjectDataProps<string[]> {
-    slug: string
+    slug: string,
+    fundsGranted: number,
+    fundsUsed: number
 }
 
 // Contains user selected filter values 
@@ -53,15 +57,19 @@ export interface DashboardContextType {
 
 export const createEmptyFilters = (): DashboardFilter => ({
     challengeCategories: '',
+    expectedImpacts: '',
     globalGoals: '',
     impactGoals: '',
+    innovationPotentials: '',
     organisations: '',
+    participants: '',
     partners: '',
-    platforms: '',
-    residentInvolvments: '',
+    // platforms: '',
+    // residentInvolvments: '',
     sectors: '',
     status: '',
-    technologies: ''      
+    technologies: '',
+    challenges: ''
 })
 
 const DashboardContext = createContext<DashboardContextType>({
@@ -90,17 +98,10 @@ const dashboardReducer = (state: DashboardReducerState, mutate: DashboardReducer
 export function createGraph (projects: DashboardProject[], filters: DashboardFilter) {
     const match = (value: string|undefined, values: string[]) => !value || values.includes(value)
     const filterProjects = (projects: DashboardProject[]) => projects.filter(p => 
-        match(filters.challengeCategories, p.challengeCategories)
-        && match(filters.globalGoals, p.globalGoals)
-        && match(filters.impactGoals, p.impactGoals)
-        && match(filters.organisations, p.organisations)
-        && match(filters.partners, p.partners)
-        && match(filters.platforms, p.platforms)
-        && match(filters.residentInvolvments, p.residentInvolvments)
-        && match(filters.sectors, p.sectors)
-        && match(filters.status, p.status)
-        && match(filters.technologies, p.technologies)
-    )
+        Object
+            .keys(filters)
+            .map(key => key as DashboardDataPropertyName)
+            .every(key => match(filters[key], p[key])))
 
     const createFilteredGraph = (projects: DashboardProject[]) => {
         const uniqueNames = (getNamesByProject:(project: DashboardProject) => string[]): string[] => {
@@ -125,12 +126,16 @@ export function createGraph (projects: DashboardProject[], filters: DashboardFil
             lookupBy,
             projects,
             challengeCategories: uniqueNames(p => p.challengeCategories),
+            challenges: uniqueNames(p => p.challenges),
+            expectedImpacts: uniqueNames(p => p.expectedImpacts),
             globalGoals: uniqueNames(p => p.globalGoals),
+            innovationPotentials: uniqueNames(p => p.innovationPotentials),
             impactGoals: uniqueNames(p => p.impactGoals),
             organisations: uniqueNames(p => p.organisations),
+            participants: uniqueNames(p => p.participants),
             partners: uniqueNames(p => p.partners),
-            platforms: uniqueNames(p => p.platforms),
-            residentInvolvments: uniqueNames(p => p.residentInvolvments),
+            // platforms: uniqueNames(p => p.platforms),
+            // residentInvolvments: uniqueNames(p => p.residentInvolvments),
             sectors: uniqueNames(p => p.sectors),
             status: uniqueNames(p => p.status),
             technologies: uniqueNames(p => p.technologies),
@@ -149,7 +154,7 @@ function createActions (dispatch: (mutator: DashboardReducerAction) => void) {
             graph: createGraph(state.projects, state.filters)
         }
     }
-    const reset = (projects: InnovationProject[], error: Error|null) => patch(state => updateGraph({
+    const reset = (projects: WPProject[], error: Error|null) => patch(state => updateGraph({
         ...state,
         error,
         projects: projects.map(mapInnovationProjectToDashboardProject)
@@ -198,29 +203,51 @@ export function useDashboard (repository: InnovationProjectRepository): Dashboar
     }
 }
 
-export function mapInnovationProjectToDashboardProject (project: InnovationProject): DashboardProject {
+export function mapInnovationProjectToDashboardProject (project: WPProject): DashboardProject {
+    interface Taxonomy {
+        term_id: number;
+        name: string;
+        slug: string;
+        term_group: number;
+        term_taxonomy_id: number;
+        taxonomy: string;
+        description: string;
+        parent: number;
+        count: number;
+        filter: string;
+    }
+
     const decodeName = (name: string) => name.replace('&amp;', '&')
 
     const names = <T>(list: T[]|undefined, getName: (item: T) => string): string[] =>
         (list || [])
-        .map(getName)
+        .map(item => getName(item))
         .filter(v => v)
         .map(decodeName)
 
     const taxonomyNames = (list: Taxonomy[]|undefined): string[] => names(list, t => t.name)
-
+    const singleName = (name: string | undefined): string[] => name ? [decodeName(name)] : []
+    const sumFunds = (amounts: string[]|undefined) => (amounts || []).map(amount => Number(amount)).filter(amount => amount).reduce((sum, amount) => sum + amount, 0)
+     
     return {
         slug: project.slug,
         challengeCategories: taxonomyNames(project.challenge_category),
+        challenges: singleName(project.challenge?.post_title),
+        expectedImpacts: taxonomyNames(project.expected_impact),
         globalGoals: taxonomyNames(project.global_goal),
         impactGoals: names(project.impact_goals, g => g.impact_goal),
+        innovationPotentials: taxonomyNames(project.innovation_potential),
         organisations: taxonomyNames(project.organisation),
+        participants: taxonomyNames(project.participants),
         partners: taxonomyNames(project.partner),
-        platforms: taxonomyNames(project.platforms),
-        residentInvolvments: names(project.resident_involvement, ri => ri.description),
+        // platforms: taxonomyNames(project.platforms),
+        // residentInvolvments: names(project.resident_involvement, ri => ri.description),
         sectors: taxonomyNames(project.sector),
         status: names(project.status, s => s.name),
         technologies: taxonomyNames(project.technology),
+
+        fundsGranted: sumFunds(project.funds_granted?.map(g => g.amount)),
+        fundsUsed: sumFunds(project.funds_used?.map(g => g.amount))
     }
 }
 

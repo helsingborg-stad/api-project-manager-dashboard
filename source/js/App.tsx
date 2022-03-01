@@ -3,7 +3,7 @@ import Dashboard from './Dashboard/Dashboard';
 
 function App() {
   return (<Container>
-    <Dashboard endpoint='https://api.helsingborg.se/innovation/wp-json/wp/v2/project' />
+    <Dashboard endpoint='https://beta.api.helsingborg.se/innovation/wp-json/wp/v2/project' />
   </Container>)
  }
 

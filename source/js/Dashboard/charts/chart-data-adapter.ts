@@ -1,5 +1,4 @@
 import { DashboardGraph, DashboardProject } from "../DashboardContext";
-import { InnovationProject, Taxonomy } from "../../innovation-api-client/types";
 
 export function mapPolarData(
   label: string,

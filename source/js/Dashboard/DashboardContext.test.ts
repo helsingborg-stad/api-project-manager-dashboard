@@ -4,15 +4,22 @@ import { createEmptyFilters, createGraph, DashboardFilter, DashboardGraph, Dashb
 const createEmptyProject = (): DashboardProject => ({
     slug: '',
     challengeCategories: [],
+    challenges: [],
+    expectedImpacts: [],
     globalGoals: [],
+    innovationPotentials: [],
     impactGoals: [],
     organisations: [],
+    participants: [],
     partners: [],
-    platforms: [],
-    residentInvolvments: [],
+    // platforms: [],
+    // residentInvolvments: [],
     sectors: [],
     status: [],
-    technologies: []
+    technologies: [],
+    
+    fundsUsed: 0,
+    fundsGranted: 0
 })
 
 const createFakeProject = (patch: Partial<DashboardProject>): DashboardProject => ({...createEmptyProject(), ...patch})
@@ -20,6 +27,7 @@ const createFakeFilters = (patch: Partial<DashboardFilter>): DashboardFilter => 
 
 const dashboardPropertyNames = [
     'challengeCategories',
+    'challenges',
     'globalGoals',
     'impactGoals',
     'organisations',

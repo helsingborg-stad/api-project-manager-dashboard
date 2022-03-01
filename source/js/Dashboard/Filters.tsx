@@ -63,6 +63,18 @@ export default function Filters () {
                 filters.technologies,
                 graph.technologies,
                 v => applyFilter({technologies: v}))}
+
+            {select(
+                'Innovationshöjd',
+                filters.innovationPotentials,
+                graph.innovationPotentials,
+                v => applyFilter({innovationPotentials: v}))}
+            {select(
+                'Förväntad effekt',
+                filters.expectedImpacts,
+                graph.expectedImpacts,
+                v => applyFilter({expectedImpacts: v}))}
+
         </Grid>)
     return <FilterContainer>
         <FilterItem>

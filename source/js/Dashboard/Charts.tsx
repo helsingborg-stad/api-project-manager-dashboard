@@ -4,7 +4,6 @@ import DashboardContext, { DashboardGraph, DashboardProject } from "./DashboardC
 
 import { Chart as ChartJS, ArcElement, Tooltip, Legend, ChartData, CategoryScale, LinearScale, BarElement, Title, RadialLinearScale, PointElement, LineElement, Filler } from 'chart.js';
 import { Bar, Doughnut, PolarArea, Radar } from 'react-chartjs-2';
-import { InnovationProject, Taxonomy } from "../innovation-api-client/types";
 import { mapDoughnutData, mapPolarData, mapRadarData, mapVerticalBarData } from "./charts/chart-data-adapter";
 
 ChartJS.register(ArcElement, Tooltip, Legend);
@@ -82,18 +81,20 @@ export default function Charts(): JSX.Element {
             <Typography variant="h5">{count}</Typography>
         </CounterBox>
     
+    const fundsText = (amounts: number[]) => amounts.reduce((sum, amount) => sum + amount, 0)
+    
     return <Grid container columns={{ xs: 1, sm: 3 }} direction="row" columnSpacing={{ xs: '1rem' }} rowSpacing={{ xs: 'rem' }}>
         <Grid item xs={3} sm={1}>
             {counter('Antal initiativ', graph.projects.length) }
-            {counter('Summa beviljade medel', '(kompletteras)') }
-            {counter('Summa använda medel', '(kompletteras)') }
+            {counter('Summa beviljade medel', fundsText(graph.projects.map(p => p.fundsGranted))) }
+            {counter('Summa använda medel', fundsText(graph.projects.map(p => p.fundsUsed))) }
             {counter('Antal stadsgemnsamma initiativ', '(kompletteras)') }
             {counter('Antal som utmanar kärnverksamhet', '(kompletteras)') }
         </Grid>
         <Grid item xs={3} sm={2}>
-            {doughnutChart('Initiativ kopplade till utmaningar', p => p.challengeCategories)}
-            {doughnutChart('Förväntad effekt', p => p.impactGoals)}
-            {polarAreaChart('Innovationshöjd', p => p.partners)}
+            {doughnutChart('Initiativ kopplade till utmaningar', p => p.challenges)}
+            {doughnutChart('Förväntad effekt', p => p.expectedImpacts)}
+            {polarAreaChart('Innovationshöjd', p => p.innovationPotentials)}
             {polarAreaChart('Kategorier', p => p.sectors)}
 
         </Grid>
