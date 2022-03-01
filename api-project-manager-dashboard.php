@@ -39,7 +39,7 @@ $acfExportManager = new \AcfExportManager\AcfExportManager();
 $acfExportManager->setTextdomain(API_PROJECT_MANAGER_DASHBOARD_TEXT_DOMAIN);
 $acfExportManager->setExportFolder(API_PROJECT_MANAGER_DASHBOARD_PATH . 'source/php/AcfFields/');
 $acfExportManager->autoExport(array(
-    // 'api-project-manager-dashboard-settings' => 'group_61ea7a87e8aaa' //Update with acf id here, settings view
+    'api-project-manager-dashboard-settings' => 'group_621e561328bf3' //Update with acf id here, settings view
 ));
 $acfExportManager->import();
 
