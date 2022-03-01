@@ -14,6 +14,7 @@ export interface DashboardProjectDataProps<T> {
     platforms: T
     residentInvolvments: T,
     sectors: T,
+    status: T,
     technologies: T,
 }
 
@@ -22,7 +23,7 @@ export interface DashboardProject extends DashboardProjectDataProps<string[]> {
 }
 
 // Contains user selected filter values 
-export interface DashboardFilter extends DashboardProjectDataProps<string|undefined> {
+export interface DashboardFilter extends DashboardProjectDataProps<string> {
 }
 
 // Given a selection from filters, contains all reacahble projects and 
@@ -55,7 +56,8 @@ const createEmptyFilters = (): DashboardFilter => ({
     platforms: '',
     residentInvolvments: '',
     sectors: '',
-    technologies: '',        
+    status: '',
+    technologies: ''      
 }
 )
 const DashboardContext = createContext<DashboardContextType>({
@@ -92,6 +94,7 @@ function createGraph (projects: DashboardProject[], filters: DashboardFilter) {
         && match(filters.platforms, p.platforms)
         && match(filters.residentInvolvments, p.residentInvolvments)
         && match(filters.sectors, p.sectors)
+        && match(filters.status, p.status)
         && match(filters.technologies, p.technologies)
     )
 
@@ -125,6 +128,7 @@ function createGraph (projects: DashboardProject[], filters: DashboardFilter) {
             platforms: uniqueNames(p => p.platforms),
             residentInvolvments: uniqueNames(p => p.residentInvolvments),
             sectors: uniqueNames(p => p.sectors),
+            status: uniqueNames(p => p.status),
             technologies: uniqueNames(p => p.technologies),
         }
         return graph
@@ -191,13 +195,15 @@ export function useDashboard (repository: InnovationProjectRepository): Dashboar
 }
 
 export function mapInnovationProjectToDashboardProject (project: InnovationProject): DashboardProject {
+    const decodeName = (name: string) => name.replace('&amp;', '&')
     const names = <T>(list: T[]|undefined, getName: (item: T) => string): string[] =>
         (list || [])
         .map(getName)
         .filter(v => v)
+        .map(decodeName)
 
-    const taxonomyNames = (list: Taxonomy[]|undefined): string[] => (list || []).map(t => t.name)
-    
+    const taxonomyNames = (list: Taxonomy[]|undefined): string[] => names(list, t => t.name)
+
     return {
         challengeCategories: taxonomyNames(project.challenge_category),
         globalGoals: taxonomyNames(project.global_goal),
@@ -207,6 +213,7 @@ export function mapInnovationProjectToDashboardProject (project: InnovationProje
         platforms: taxonomyNames(project.platforms),
         residentInvolvments: names(project.resident_involvement, ri => ri.description),
         sectors: taxonomyNames(project.sector),
+        status: names(project.status, s => s.name),
         technologies: taxonomyNames(project.technology),
     }
 }

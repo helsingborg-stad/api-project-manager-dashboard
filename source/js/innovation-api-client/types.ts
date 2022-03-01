@@ -57,6 +57,20 @@ export interface ResidentInvolvement {
 
 export interface Challenge extends Post {}
 
+export interface Status {
+    term_id: number;
+    name: string;
+    slug: string;
+    term_group: number;
+    term_taxonomy_id: number;
+    taxonomy: string;
+    description: string;
+    parent: number;
+    count: number;
+    filter: string;
+    progress_value: string;
+}
+
 export interface InnovationProject {
     id: number;
 /*
@@ -65,8 +79,9 @@ export interface InnovationProject {
     modified: Date;
     modified_gmt: Date;
  */
-   slug: string;
-/*    status: Status[];
+    slug: string;
+    status: Status[];
+/*
     type: string;
     title: Title;
     content: Content;

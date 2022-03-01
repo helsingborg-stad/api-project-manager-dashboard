@@ -3,10 +3,22 @@ import { InnovationProject, Taxonomy } from "../../innovation-api-client/types";
 
 export function mapPolarData(
   label: string,
-  dimensions: DashboardGraph,
+  graph: DashboardGraph,
   getKeys: (project: DashboardProject) => string[]) {
-  const {keys, values} = mapDimensionData(dimensions, getKeys)
+  const {keys, values} = mapGraphData(graph, getKeys)
 
+  const options = {
+    responsive: true,
+    plugins: {
+      legend: {
+        position: 'right' as const,
+      },
+      title: {
+        display: true,
+        text: label
+      },
+    }
+  }
   const data = {
     labels: keys,
     datasets: [
@@ -25,14 +37,14 @@ export function mapPolarData(
       },
     ],
   }
-  return {data}
+  return {data, options}
 }
 
 export function mapRadarData (
     label: string,
-    dimensions: DashboardGraph,
+    graph: DashboardGraph,
     getKeys: (project: DashboardProject) => string[]) {
-    const {keys, values} = mapDimensionData(dimensions, getKeys)
+    const {keys, values} = mapGraphData(graph, getKeys)
 
     const options = {
       responsive: true,
@@ -44,7 +56,17 @@ export function mapRadarData (
           min: -0.001,
           max: 100
         }
+      },
+      plugins: {
+        legend: {
+          position: 'right' as const,
+        },
+        title: {
+          display: true,
+          text: label
+        },
       }
+
     }
 
     const data = {
@@ -64,9 +86,9 @@ export function mapRadarData (
 
 export function mapVerticalBarData (
     label: string,
-    dimensions: DashboardGraph,
+    graph: DashboardGraph,
     getKeys: (project: DashboardProject) => string[]) {
-    const {keys, values} = mapDimensionData(dimensions, getKeys)
+    const {keys, values} = mapGraphData(graph, getKeys)
     
     const options = {
         responsive: true,
@@ -96,12 +118,21 @@ export function mapVerticalBarData (
 }
 export function mapDoughnutData (
     label: string,
-    dimensions: DashboardGraph,
+    graph: DashboardGraph,
     getKeys: (project: DashboardProject) => string[]) {
-    const {keys, values} = mapDimensionData(dimensions, getKeys)
+    const {keys, values} = mapGraphData(graph, getKeys)
     return {
         options: {
-            responsive: true
+          responsive: true,
+          plugins: {
+            legend: {
+              position: 'right' as const,
+            },
+            title: {
+              display: true,
+              text: label
+            },
+          }
         },
         data: {
             labels: keys,
@@ -132,10 +163,10 @@ export function mapDoughnutData (
 
 
 
-function mapDimensionData (
-    dimensions: DashboardGraph,
+function mapGraphData (
+    graph: DashboardGraph,
     getKeys: (project: DashboardProject) => string[]) {
-    const lookup = dimensions.lookupBy(project => (getKeys(project) || []))
+    const lookup = graph.lookupBy(project => (getKeys(project) || []))
     return {
         keys: Object.keys(lookup),
         values: Object.values(lookup).map(projects => projects.length)

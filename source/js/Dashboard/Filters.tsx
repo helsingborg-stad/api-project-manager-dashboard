@@ -1,27 +1,93 @@
-import { Autocomplete, Box, FormControl, Link, TextField, Typography } from "@mui/material";
-import { Fragment, useContext } from "react";
+import { Autocomplete, Box, FormControl, Grid, Link, styled, TextField, Typography } from "@mui/material";
+import { useContext } from "react";
 import DashboardContext from "./DashboardContext";
+
+const FilterContainer = styled(Box)(({ theme }) => ({
+    [theme.breakpoints.up('md')]: {
+        display: 'flex',
+        justifyContent: 'space-around'
+    },
+  }))
+
+const FilterItem = styled(FormControl)(({ theme }) => ({
+[theme.breakpoints.up('md')]: {
+    flex: 1,
+    padding: '1em'
+},
+}))
+
+const FilterTextField = styled(TextField)(() => ({
+    '& fieldset': {
+      borderRadius: '2em',
+    },
+  }))
 
 export default function Filters () {
     const {
-        graph: dimensions,
+        graph,
         filters,
         applyFilter,
         resetFilter
     } = useContext(DashboardContext)
 
-    const select = (label: string, value: string|undefined, values: string[]|undefined, setValue: (value: string) => unknown) => (
-        <FormControl fullWidth sx={{ margin: '0.5em' }}>
+    const select = (label: string, value: string, values: string[], setValue: (value: string) => unknown) => (
+        <Grid item xs={1}>
             <Autocomplete
                 value={value || ''}
                 disablePortal
                 id="combo-box-demo"
                 options={values||[]}
-                renderInput={(params) => <TextField {...params} label={`${label} (${values?.length || 0})`} />}
                 onChange={(event, newValue) => setValue(newValue || '')}
+                renderInput={(params) => <FilterTextField 
+                    {...params}
+                    label={`${label} (${values?.length || 0})`}
+                    variant="outlined"
+                    />}
                 />
-            </FormControl>)
+        </Grid>)
 
+    return (
+        <Grid container columns={{ xs: 1, sm: 3 }} direction="row" columnSpacing={{ xs: '1em' }}>
+            {select(
+                'Organisation',
+                filters.organisations,
+                graph.organisations, 
+                v => applyFilter({organisations: v}))}
+            {select(
+                'Status på initiativ',
+                filters.status,
+                graph.status,
+                v => applyFilter({status: v}))}
+            {select(
+                'Teknologier',
+                filters.technologies,
+                graph.technologies,
+                v => applyFilter({technologies: v}))}
+        </Grid>)
+    return <FilterContainer>
+        <FilterItem>
+            {select(
+                'Organisation',
+                filters.organisations,
+                graph.organisations, 
+                v => applyFilter({organisations: v}))}
+        </FilterItem>
+        <FilterItem>
+            {select(
+                'Status på initiativ',
+                filters.status,
+                graph.status,
+                v => applyFilter({status: v}))}
+        </FilterItem>
+        <FilterItem>
+            {select(
+                'Teknologier',
+                filters.technologies,
+                graph.technologies,
+                v => applyFilter({technologies: v}))}
+        </FilterItem>
+    </FilterContainer>
+/*
     return (
         <Fragment>
             <Box sx={{ display: 'flex', justifyContent: 'space-between' }}>
@@ -49,4 +115,5 @@ export default function Filters () {
                 {select('Påverkansmål', filters.impactGoals, dimensions.impactGoals, v => applyFilter({impactGoals: v}))}
             </Box>
         </Fragment>)
+*/
 }
