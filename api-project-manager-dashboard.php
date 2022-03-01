@@ -21,8 +21,9 @@ if (! defined('WPINC')) {
 define('API_PROJECT_MANAGER_DASHBOARD_PATH', plugin_dir_path(__FILE__));
 define('API_PROJECT_MANAGER_DASHBOARD_URL', plugins_url('', __FILE__));
 define('API_PROJECT_MANAGER_DASHBOARD_TEMPLATE_PATH', API_PROJECT_MANAGER_DASHBOARD_PATH . 'templates/');
+define('API_PROJECT_MANAGER_DASHBOARD_TEXT_DOMAIN', 'api-project-manager-dashboard');
 
-load_plugin_textdomain('api-project-manager-dashboard', false, plugin_basename(dirname(__FILE__)) . '/languages');
+load_plugin_textdomain(API_PROJECT_MANAGER_DASHBOARD_TEXT_DOMAIN, false, plugin_basename(dirname(__FILE__)) . '/languages');
 
 require_once API_PROJECT_MANAGER_DASHBOARD_PATH . 'source/php/Vendor/Psr4ClassLoader.php';
 require_once API_PROJECT_MANAGER_DASHBOARD_PATH . 'Public.php';
@@ -35,7 +36,7 @@ $loader->register();
 
 // Acf auto import and export
 $acfExportManager = new \AcfExportManager\AcfExportManager();
-$acfExportManager->setTextdomain('api-project-manager-dashboard');
+$acfExportManager->setTextdomain(API_PROJECT_MANAGER_DASHBOARD_TEXT_DOMAIN);
 $acfExportManager->setExportFolder(API_PROJECT_MANAGER_DASHBOARD_PATH . 'source/php/AcfFields/');
 $acfExportManager->autoExport(array(
     // 'api-project-manager-dashboard-settings' => 'group_61ea7a87e8aaa' //Update with acf id here, settings view
