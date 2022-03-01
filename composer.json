@@ -10,10 +10,7 @@
         }
     ],
     "minimum-stability": "stable",
-    "require": {
-        "composer/installers": "~1.0",
-        "helsingborg-stad/acf-export-manager": ">=1.0.0"
-    },
+    "require": {},
     "repositories": [
         {
             "type": "vcs",
