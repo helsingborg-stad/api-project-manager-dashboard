@@ -14,7 +14,7 @@ const renderDashboard = (element: Element, url: string) => {
   );
 };
 
-document.addEventListener('DOMContentLoaded', function () {
+const init = () => {
   const dashboardElements = Array.from(document.querySelectorAll(DASHBOARD_ENTRY_SELECTOR) ?? []);
   dashboardElements
     .map((element: Element) => ({
@@ -23,4 +23,6 @@ document.addEventListener('DOMContentLoaded', function () {
     }))
     .filter(({ url }) => url.length > 0)
     .forEach(({ element, url }) => renderDashboard(element, url));
-});
+};
+
+document.addEventListener('DOMContentLoaded', init);
