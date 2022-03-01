@@ -53,8 +53,6 @@ ChartJS.register(
 export default function Charts(): JSX.Element {
     const {graph} = useContext(DashboardContext)
 
-    console.log(graph)
-
     const createDoughnutData = useCallback((label, getTaxonomy) => mapDoughnutData(label, graph, getTaxonomy), [graph])
     const createCreateVerticalbartData = useCallback((label, getTaxonomy) => mapVerticalBarData(label, graph, getTaxonomy), [graph])
     const createRadarData = useCallback((label, getTaxonomy) => mapRadarData(label, graph, getTaxonomy), [graph])
@@ -85,7 +83,7 @@ export default function Charts(): JSX.Element {
         </CounterBox>
     
     return <Grid container columns={{ xs: 1, sm: 3 }} direction="row" columnSpacing={{ xs: '1rem' }} rowSpacing={{ xs: 'rem' }}>
-        <Grid item xs={3} sm={1} direction="column">
+        <Grid item xs={3} sm={1}>
             {counter('Antal initiativ', graph.projects.length) }
             {counter('Summa beviljade medel', '(kompletteras)') }
             {counter('Summa använda medel', '(kompletteras)') }
