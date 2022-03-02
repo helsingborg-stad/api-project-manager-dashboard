@@ -45,7 +45,7 @@ const ChartBox = styled(Box)({
     marginBottom: '1rem'
 })
 export default function Charts(): JSX.Element {
-    const {graph} = useContext(DashboardContext)
+    const {graph, filters} = useContext(DashboardContext)
 
     const createDoughnutData = useCallback((label, getTaxonomy) => mapDoughnutData(label, graph, getTaxonomy), [graph])
     const createCreateVerticalbartData = useCallback((label, getTaxonomy) => mapVerticalBarData(label, graph, getTaxonomy), [graph])
@@ -70,10 +70,12 @@ export default function Charts(): JSX.Element {
             </ChartBox>)
     }
 
-    const verticalBarChart = (label: string, getTaxonomy: (project: DashboardProject) => string[]) => (
-        <ChartBox>
-            <Bar {...createCreateVerticalbartData(label, getTaxonomy)}/>
-        </ChartBox>)
+    const verticalBarChart = (label: string, getTaxonomy: (project: DashboardProject) => string[]) => chartContainer(
+        label,
+        createCreateVerticalbartData(label, getTaxonomy),
+        props => props.data.labels.length > 0,
+        data => <Bar {...data}/>)
+ 
     const radarChart = (label: string, getTaxonomy: (project: DashboardProject) => string[]) => (
         <ChartBox>
             <Radar {...createRadarData(label, getTaxonomy)}/>
@@ -110,6 +112,7 @@ export default function Charts(): JSX.Element {
                     {counter('Antal som utmanar kärnverksamhet', graph.projects.filter(p => p.summary.isChallengingCoreBusiness).length) }
                 </Grid>
                 <Grid item xs={3} sm={2}>
+                    {verticalBarChart('Status', p => p.status)}
                     {doughnutChart('Initiativ kopplade till utmaningar', p => p.challenges)}
                     {doughnutChart('Förväntad effekt', p => p.expectedImpacts)}
                     {polarAreaChart('Innovationshöjd', p => p.innovationPotentials)}

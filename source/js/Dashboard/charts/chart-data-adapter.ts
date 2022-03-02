@@ -1,4 +1,14 @@
 import { DashboardGraph, DashboardProject } from "../DashboardContext";
+const getBackgroundColors = () => [
+  'rgba(255, 99, 132, 0.5)',
+  'rgba(54, 162, 235, 0.5)',
+  'rgba(255, 206, 86, 0.5)',
+  'rgba(75, 192, 192, 0.5)',
+  'rgba(153, 102, 255, 0.5)',
+  'rgba(255, 159, 64, 0.5)',
+]
+
+
 
 export function mapPolarData(
   label: string,
@@ -24,14 +34,7 @@ export function mapPolarData(
       {
         label,
         data: values,
-        backgroundColor: [
-          'rgba(255, 99, 132, 0.5)',
-          'rgba(54, 162, 235, 0.5)',
-          'rgba(255, 206, 86, 0.5)',
-          'rgba(75, 192, 192, 0.5)',
-          'rgba(153, 102, 255, 0.5)',
-          'rgba(255, 159, 64, 0.5)',
-        ],
+        backgroundColor: getBackgroundColors(),
         borderWidth: 1,
       },
     ],
@@ -93,7 +96,8 @@ export function mapVerticalBarData (
         responsive: true,
         plugins: {
           legend: {
-            position: 'top' as const,
+            position: 'right' as const,
+            display: false
           },
           title: {
             display: false,
@@ -107,7 +111,7 @@ export function mapVerticalBarData (
           {
             label,
             data: values,
-            backgroundColor: 'rgba(255, 99, 132, 0.5)',
+            backgroundColor: getBackgroundColors(),
           }
         ],
       }
