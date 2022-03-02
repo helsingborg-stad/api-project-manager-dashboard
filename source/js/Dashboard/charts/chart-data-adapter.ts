@@ -13,7 +13,7 @@ export function mapPolarData(
         position: 'right' as const,
       },
       title: {
-        display: true,
+        display: false,
         text: label
       },
     }
@@ -61,7 +61,7 @@ export function mapRadarData (
           position: 'right' as const,
         },
         title: {
-          display: true,
+          display: false,
           text: label
         },
       }
@@ -96,7 +96,7 @@ export function mapVerticalBarData (
             position: 'top' as const,
           },
           title: {
-            display: true,
+            display: false,
             text: label
           },
         }
@@ -128,7 +128,7 @@ export function mapDoughnutData (
               position: 'right' as const,
             },
             title: {
-              display: true,
+              display: false,
               text: label
             },
           }

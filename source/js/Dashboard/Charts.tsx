@@ -3,7 +3,7 @@ import { Fragment, useCallback, useContext, useMemo } from "react";
 import DashboardContext, { DashboardGraph, DashboardProject } from "./DashboardContext";
 
 import { Chart as ChartJS, ArcElement, Tooltip, Legend, ChartData, CategoryScale, LinearScale, BarElement, Title, RadialLinearScale, PointElement, LineElement, Filler } from 'chart.js';
-import { Bar, Doughnut, PolarArea, Radar } from 'react-chartjs-2';
+import { Bar, ChartProps, Doughnut, PolarArea, Radar } from 'react-chartjs-2';
 import { mapDoughnutData, mapPolarData, mapRadarData, mapVerticalBarData } from "./charts/chart-data-adapter";
 import { formatFunds } from "./formatting";
 
@@ -24,17 +24,6 @@ ChartJS.register(
     Tooltip,
     Legend
   );
-  const ChartBoxContainer = styled(Box)(({ theme }) => ({
-    [theme.breakpoints.up('md')]: {
-        display: 'flex',
-        justifyContent: 'space-around'
-    },
-  }))
-  const ChartBox = styled(Box)(({ theme }) => ({
-    [theme.breakpoints.up('md')]: {
-        flex: '1 1 auto'
-    },
-  }))
 
   const CounterBox = styled(Box)({
       borderRadius: '2rem',
@@ -42,14 +31,19 @@ ChartJS.register(
       borderWidth: '1px',
       borderStyle: 'solid',
       padding: '3rem',
-      /*
-      marginTop: 0,
-      marginLeft: 0,
-      marginRight: '1rem',
-      marginBottom: '2rem',
-      */
-      textAlign: 'center'
+      textAlign: 'center',
+      marginBottom: '1rem'
   })
+
+const ChartBox = styled(Box)({
+    padding: '1rem',
+    borderRadius: '2rem',
+    borderColor: 'gray',
+    borderWidth: '1px',
+    borderStyle: 'solid',
+    textAlign: 'center',
+    marginBottom: '1rem'
+})
 export default function Charts(): JSX.Element {
     const {graph} = useContext(DashboardContext)
 
@@ -58,10 +52,23 @@ export default function Charts(): JSX.Element {
     const createRadarData = useCallback((label, getTaxonomy) => mapRadarData(label, graph, getTaxonomy), [graph])
     const createPolarData = useCallback((label, getTaxonomy) => mapPolarData(label, graph, getTaxonomy), [graph])
 
-    const doughnutChart = (label: string, getTaxonomy: (project: DashboardProject) => string[]) => (
-        <ChartBox>
-            <Doughnut {...createDoughnutData(label, getTaxonomy)}/>
-        </ChartBox>)
+    function chartContainer<T>(label: string, props: T, hasData: (props: T) => boolean, renderChart: (props: T) => JSX.Element) {
+        return (
+            <ChartBox>
+                <Box sx={{ textAlign: 'center' }}>
+                    <Typography variant="h5">{label}</Typography>
+                </Box>
+                <Box>
+                    {hasData(props)
+                    ? renderChart(props) 
+                    : (
+                        <Box sx={{ textAlign: 'center' }}>
+                            <Typography variant="body1">Data saknas</Typography>
+                        </Box>)
+                    }
+                </Box>
+            </ChartBox>)
+    }
 
     const verticalBarChart = (label: string, getTaxonomy: (project: DashboardProject) => string[]) => (
         <ChartBox>
@@ -71,10 +78,18 @@ export default function Charts(): JSX.Element {
         <ChartBox>
             <Radar {...createRadarData(label, getTaxonomy)}/>
         </ChartBox>)
-    const polarAreaChart = (label: string, getTaxonomy: (project: DashboardProject) => string[]) => (
-        <ChartBox>
-            <PolarArea {...createPolarData(label, getTaxonomy)}/>
-        </ChartBox>)
+
+    const polarAreaChart = (label: string, getTaxonomy: (project: DashboardProject) => string[]) => chartContainer(
+        label,
+        createPolarData(label, getTaxonomy),
+        props => props.data.labels.length > 0,
+        data => <PolarArea {...data}/>)
+
+    const doughnutChart = (label: string, getTaxonomy: (project: DashboardProject) => string[]) => chartContainer(
+        label,
+        createDoughnutData(label, getTaxonomy),
+        props => props.data.labels.length > 0,
+        props => <Doughnut {...props} />)
     
     const counter = (label: string, count: string | number) =>
         <CounterBox>
@@ -86,12 +101,12 @@ export default function Charts(): JSX.Element {
     
     return (
         <Fragment>
-            <Grid container columns={{ xs: 1, sm: 3 }} direction="row" columnSpacing={{ xs: '1rem' }} rowSpacing={{ xs: 'rem' }}>
-                <Grid item xs={3} sm={1}>
+            <Grid container columns={{ xs: 1, sm: 3 }} direction="row" columnSpacing={{ xs: '1rem' }} rowSpacing={{ xs: '1rem' }}>
+                <Grid item xs={3} sm={1} rowSpacing={{ xs: '1rem' }}>
                     {counter('Antal initiativ', graph.projects.length) }
                     {counter('Summa beviljade medel', fundsText(graph.projects.map(p => p.fundsGranted))) }
                     {counter('Summa använda medel', fundsText(graph.projects.map(p => p.fundsUsed))) }
-                    {counter('Antal stadsgemnsamma initiativ', graph.projects.filter(p => p.summary.isCityWide).length) }
+                    {counter('Antal stadsgemensamma initiativ', graph.projects.filter(p => p.summary.isCityWide).length) }
                     {counter('Antal som utmanar kärnverksamhet', graph.projects.filter(p => p.summary.isChallengingCoreBusiness).length) }
                 </Grid>
                 <Grid item xs={3} sm={2}>

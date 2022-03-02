@@ -1,20 +1,6 @@
-import { Autocomplete, Box, Button, FormControl, Grid, Link, styled, TextField, Typography } from "@mui/material";
+import { Autocomplete, Box, Button, Grid, styled, TextField, Typography } from "@mui/material";
 import { Fragment, useContext } from "react";
 import DashboardContext from "./DashboardContext";
-
-const FilterContainer = styled(Box)(({ theme }) => ({
-    [theme.breakpoints.up('md')]: {
-        display: 'flex',
-        justifyContent: 'space-around'
-    },
-  }))
-
-const FilterItem = styled(FormControl)(({ theme }) => ({
-[theme.breakpoints.up('md')]: {
-    flex: 1,
-    padding: '1em'
-},
-}))
 
 const FilterTextField = styled(TextField)(() => ({
     '& fieldset': {
@@ -48,13 +34,12 @@ export default function Filters () {
 
     return (
         <Fragment>
-            <Box sx={{ display: 'flex' }}>
-                <span>FILTRERA</span>
+            <Box sx={{ display: 'flex', alignItems: 'center' }}>
+                <Typography variant="subtitle1">FILTRERA</Typography>
                 <Box sx={{ flex: 1 }} />
-                
                 <Button variant="text" onClick={() => resetFilter()}>RENSA FILTER</Button>
             </Box>
-            <Grid container columns={{ xs: 1, sm: 3 }} direction="row" columnSpacing={{ xs: '1em' }}>
+            <Grid container columns={{ xs: 1, sm: 3 }} direction="row" columnSpacing={{ xs: '1rem' }}>
                 {select(
                     'Organisation',
                     filters.organisations,
