@@ -75,7 +75,11 @@ class App
      */
     public function enqueueStyles()
     {
-        wp_register_style(
+        if (empty($_GET['page']) || $_GET['page'] !== 'api-project-manager-dashboard') {
+            return;
+        }
+
+        wp_enqueue_style(
             'api-project-manager-dashboard-css',
             API_PROJECT_MANAGER_DASHBOARD_URL . '/dist/' .
             \ApiProjectManagerDashboard\Helper\CacheBust::name('css/api-project-manager-dashboard.css')
