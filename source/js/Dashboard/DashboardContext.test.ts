@@ -30,16 +30,17 @@ const createFakeFilters = (patch: Partial<DashboardFilter>): DashboardFilter => 
 
 const dashboardPropertyNames = [
     'challengeCategories',
-    'challenges',
+    'expectedImpacts',
     'globalGoals',
     'impactGoals',
+    'innovationPotentials',
     'organisations',
+    'participants',
     'partners',
-    'platforms',
-    'residentInvolvments',
     'sectors',
     'status',
-    'technologies']
+    'technologies',
+    'challenges']
 
 describe('createGraph(<projects>, <filters>)', () => {
     test.each(dashboardPropertyNames.map(propertyName => [propertyName]))
