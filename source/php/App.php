@@ -58,8 +58,14 @@ class App
     public function renderAdminPageForDashboard()
     {
         $apiUrl = get_field('project_manager_dashboard_api_url', 'options');
+        $classNames = implode(' ', [
+            'js-api-project-manager-dashboard',
+            'api-project-manager-dashboard--bg-white',
+            'wp-admin-reset-css'
+        ]);
+
         if ($apiUrl) {
-            echo '<div class="js-api-project-manager-dashboard" data-api-url="' . $apiUrl . '"></div>';
+            printf('<div class="%1$s" data-api-url="%2$s"></div>', esc_attr($classNames), esc_html($apiUrl));
         }
     }
 
