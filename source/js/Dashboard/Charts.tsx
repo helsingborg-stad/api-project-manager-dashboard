@@ -83,22 +83,25 @@ export default function Charts(): JSX.Element {
     
     const fundsText = (amounts: number[]) => amounts.reduce((sum, amount) => sum + amount, 0)
     
-    return <Grid container columns={{ xs: 1, sm: 3 }} direction="row" columnSpacing={{ xs: '1rem' }} rowSpacing={{ xs: 'rem' }}>
-        <Grid item xs={3} sm={1}>
-            {counter('Antal initiativ', graph.projects.length) }
-            {counter('Summa beviljade medel', fundsText(graph.projects.map(p => p.fundsGranted))) }
-            {counter('Summa använda medel', fundsText(graph.projects.map(p => p.fundsUsed))) }
-            {counter('Antal stadsgemnsamma initiativ', '(kompletteras)') }
-            {counter('Antal som utmanar kärnverksamhet', '(kompletteras)') }
-        </Grid>
-        <Grid item xs={3} sm={2}>
-            {doughnutChart('Initiativ kopplade till utmaningar', p => p.challenges)}
-            {doughnutChart('Förväntad effekt', p => p.expectedImpacts)}
-            {polarAreaChart('Innovationshöjd', p => p.innovationPotentials)}
-            {polarAreaChart('Kategorier', p => p.sectors)}
+    return (
+        <Fragment>
+            <Grid container columns={{ xs: 1, sm: 3 }} direction="row" columnSpacing={{ xs: '1rem' }} rowSpacing={{ xs: 'rem' }}>
+                <Grid item xs={3} sm={1}>
+                    {counter('Antal initiativ', graph.projects.length) }
+                    {counter('Summa beviljade medel', fundsText(graph.projects.map(p => p.fundsGranted))) }
+                    {counter('Summa använda medel', fundsText(graph.projects.map(p => p.fundsUsed))) }
+                    {counter('Antal stadsgemnsamma initiativ', '(kompletteras)') }
+                    {counter('Antal som utmanar kärnverksamhet', '(kompletteras)') }
+                </Grid>
+                <Grid item xs={3} sm={2}>
+                    {doughnutChart('Initiativ kopplade till utmaningar', p => p.challenges)}
+                    {doughnutChart('Förväntad effekt', p => p.expectedImpacts)}
+                    {polarAreaChart('Innovationshöjd', p => p.innovationPotentials)}
+                    {polarAreaChart('Kategorier', p => p.sectors)}
 
-        </Grid>
-    </Grid>
+                </Grid>
+            </Grid>
+        </Fragment>)
 
     return <Box sx={{ 
         display: 'flex' 
