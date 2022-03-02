@@ -5,6 +5,7 @@ import DashboardContext, { DashboardGraph, DashboardProject } from "./DashboardC
 import { Chart as ChartJS, ArcElement, Tooltip, Legend, ChartData, CategoryScale, LinearScale, BarElement, Title, RadialLinearScale, PointElement, LineElement, Filler } from 'chart.js';
 import { Bar, Doughnut, PolarArea, Radar } from 'react-chartjs-2';
 import { mapDoughnutData, mapPolarData, mapRadarData, mapVerticalBarData } from "./charts/chart-data-adapter";
+import { formatFunds } from "./formatting";
 
 ChartJS.register(ArcElement, Tooltip, Legend);
 ChartJS.register(
@@ -81,7 +82,7 @@ export default function Charts(): JSX.Element {
             <Typography variant="h5">{count}</Typography>
         </CounterBox>
     
-    const fundsText = (amounts: number[]) => amounts.reduce((sum, amount) => sum + amount, 0)
+    const fundsText = (amounts: number[]) => formatFunds(amounts.reduce((sum, amount) => sum + amount, 0))
     
     return (
         <Fragment>
@@ -90,56 +91,15 @@ export default function Charts(): JSX.Element {
                     {counter('Antal initiativ', graph.projects.length) }
                     {counter('Summa beviljade medel', fundsText(graph.projects.map(p => p.fundsGranted))) }
                     {counter('Summa använda medel', fundsText(graph.projects.map(p => p.fundsUsed))) }
-                    {counter('Antal stadsgemnsamma initiativ', '(kompletteras)') }
-                    {counter('Antal som utmanar kärnverksamhet', '(kompletteras)') }
+                    {counter('Antal stadsgemnsamma initiativ', graph.projects.filter(p => p.summary.isCityWide).length) }
+                    {counter('Antal som utmanar kärnverksamhet', graph.projects.filter(p => p.summary.isChallengingCoreBusiness).length) }
                 </Grid>
                 <Grid item xs={3} sm={2}>
                     {doughnutChart('Initiativ kopplade till utmaningar', p => p.challenges)}
                     {doughnutChart('Förväntad effekt', p => p.expectedImpacts)}
                     {polarAreaChart('Innovationshöjd', p => p.innovationPotentials)}
                     {polarAreaChart('Kategorier', p => p.sectors)}
-
                 </Grid>
             </Grid>
         </Fragment>)
-
-    return <Box sx={{ 
-        display: 'flex' 
-        }}>
-        <Box sx={{ flex: 1, flexDirection: 'column' }}>
-            {counter('Antal initiativ', graph.projects.length) }
-            {counter('Summa beviljade medel', '(kompletteras)') }
-            {counter('Summa använda medel', '(kompletteras)') }
-            {counter('Antal stadsgemnsamma initiativ', '(kompletteras)') }
-            {counter('Antal som utmanar kärnverksamhet', '(kompletteras)') }
-        </Box>
-        <Box sx={{ flex: 2, flexDirection: 'column' }}></Box>
-    </Box>
-
-
-    /*
-    return (
-        <Fragment>
-            <ChartBoxContainer>
-                {polarAreaChart('Organisation', p => p.organisations)}
-                {polarAreaChart('Teknologi', p => p.technologies)}
-                {polarAreaChart('Sektor', p => p.sectors)}
-            </ChartBoxContainer>
-            <ChartBoxContainer>
-                {radarChart('Status', p => p.status)}
-                {radarChart('Teknologi', p => p.technologies)}
-                {radarChart('Sektor', p => p.sectors)}
-            </ChartBoxContainer>
-            <ChartBoxContainer>
-                {doughnutChart('Organisation', p => p.organisations)}
-                {doughnutChart('Teknologi', p => p.technologies)}
-                {doughnutChart('Sektor', p => p.sectors)}
-            </ChartBoxContainer>
-            <Box sx={{ display: 'flex', justifyContent: 'space-around' }}>
-                {verticalBarChart('Globala mål', p => p.globalGoals)}
-                {verticalBarChart('Partner', p => p.partners)}
-                {verticalBarChart('Plattform', p => p.platforms)}
-            </Box>
-        </Fragment>)
-    */
 }

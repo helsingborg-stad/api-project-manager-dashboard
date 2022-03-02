@@ -1,5 +1,6 @@
 import { createContext, useCallback, useMemo, useReducer, useState } from "react";
 import { InnovationProjectRepository, WPProject } from "../innovation-api-client/InnovationProjectRepository";
+import {decode as htmlDecode} from 'he'
 
 /**
  * Common layout for projects and filters
@@ -27,7 +28,16 @@ export interface DashboardProjectDataProps<T> extends Record<DashboardDataProper
 export interface DashboardProject extends DashboardProjectDataProps<string[]> {
     slug: string,
     fundsGranted: number,
-    fundsUsed: number
+    fundsUsed: number,
+    summary: DashboardProjectSummary
+}
+
+export interface DashboardProjectSummary {
+    title: string,
+    created: Date,
+    modified: Date,
+    isCityWide: boolean,
+    isChallengingCoreBusiness: boolean
 }
 
 // Contains user selected filter values 
@@ -217,20 +227,28 @@ export function mapInnovationProjectToDashboardProject (project: WPProject): Das
         filter: string;
     }
 
-    const decodeName = (name: string) => name.replace('&amp;', '&')
+    // const htmlDecode = (name: string) => name.replace('&amp;', '&')
 
     const names = <T>(list: T[]|undefined, getName: (item: T) => string): string[] =>
         (list || [])
         .map(item => getName(item))
         .filter(v => v)
-        .map(decodeName)
+        .map(v => htmlDecode(v))
 
     const taxonomyNames = (list: Taxonomy[]|undefined): string[] => names(list, t => t.name)
-    const singleName = (name: string | undefined): string[] => name ? [decodeName(name)] : []
+    const singleName = (name: string | undefined): string[] => name ? [htmlDecode(name)] : []
     const sumFunds = (amounts: string[]|undefined) => (amounts || []).map(amount => Number(amount)).filter(amount => amount).reduce((sum, amount) => sum + amount, 0)
-     
+
     return {
         slug: project.slug,
+        summary: {
+            title: htmlDecode(project.title.rendered),
+            created: new Date(project.date),
+            modified: new Date(project.modified),
+            isCityWide: project.city_wide_initiative,
+            isChallengingCoreBusiness: project.challenging_the_core_business
+        },
+
         challengeCategories: taxonomyNames(project.challenge_category),
         challenges: singleName(project.challenge?.post_title),
         expectedImpacts: taxonomyNames(project.expected_impact),
@@ -250,4 +268,3 @@ export function mapInnovationProjectToDashboardProject (project: WPProject): Das
         fundsUsed: sumFunds(project.funds_used?.map(g => g.amount))
     }
 }
-

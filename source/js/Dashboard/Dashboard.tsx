@@ -1,9 +1,9 @@
-import { Box } from "@mui/material";
 import { useLayoutEffect, useState } from "react";
 import { createInnovationProjectRepository } from "../innovation-api-client/InnovationProjectRepository";
 import DashboardContext, { useDashboard } from "./DashboardContext";
 import Charts from "./Charts";
 import Filters from "./Filters";
+import ProjectList from "./ProjectList";
 
 
 export interface DashboardPropsType {
@@ -17,6 +17,7 @@ export default function Dashboard ({endpoint}: DashboardPropsType): JSX.Element 
 
     return <DashboardContext.Provider value={provider}>
         <Filters />
+        <ProjectList />
         <Charts />
     </DashboardContext.Provider>
 }

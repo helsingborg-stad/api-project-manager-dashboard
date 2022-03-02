@@ -3,6 +3,9 @@ import { createEmptyFilters, createGraph, DashboardFilter, DashboardGraph, Dashb
 
 const createEmptyProject = (): DashboardProject => ({
     slug: '',
+    summary: {
+        title: '', created: new Date(), modified: new Date(), isCityWide: false, isChallengingCoreBusiness: false
+    },
     challengeCategories: [],
     challenges: [],
     expectedImpacts: [],
