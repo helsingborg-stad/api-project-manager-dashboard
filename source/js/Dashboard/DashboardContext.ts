@@ -60,7 +60,7 @@ export interface DashboardContextType {
     filters: DashboardFilter,
     // reachable projects and filter values given current filter values
     graph: DashboardGraph,
-    requestLoadProjects: () => void,
+    requestLoadProjects: () => Promise<void>,
     applyFilter: (filter: Partial<DashboardFilter>) => void,
     resetFilter: () => void
 }
@@ -87,7 +87,7 @@ const DashboardContext = createContext<DashboardContextType>({
     projects: [],
     filters: createEmptyFilters(),
     graph: createGraph([], createEmptyFilters()),
-    requestLoadProjects: () => undefined,
+    requestLoadProjects: () => Promise.reject(new Error('DashboardContext is not initialized')),
     applyFilter: () => undefined,
     resetFilter: () => undefined
 })
@@ -187,19 +187,19 @@ function createActions (dispatch: (mutator: DashboardReducerAction) => void) {
 
 export function useDashboard (repository: InnovationProjectRepository): DashboardContextType {
     const [{projects, error, filters, graph: graph}, dispatch] = useReducer(dashboardReducer, {error: null, projects: [], filters: createEmptyFilters(), graph: createGraph([], createEmptyFilters())})
-    const [loadPromise, setLoadPromise] = useState<Promise<unknown>|null>(null)    
-
+    const [loadPromise, setLoadPromise] = useState<Promise<void>|null>(null)    
     const actions = useMemo(() => createActions(dispatch), [])
 
-    const requestLoadProjects = useCallback((): void => {
+    const requestLoadProjects = useCallback((): Promise<void> => {
         if (loadPromise) {
-            return
+            return loadPromise
         }
         const load = repository
             .loadInnovationProjects()
             .then(projects => actions.reset(projects, null))
             .catch(error => actions.reset([], error))
         setLoadPromise(load)
+        return load
     }, [actions, loadPromise, repository])
 
     return {
