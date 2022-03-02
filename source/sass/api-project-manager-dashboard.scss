@@ -25,9 +25,9 @@
   select,
   textarea {
     box-shadow: none;
-    border-radius: none;
+    border-radius: 0;
     border: none;
-    background-color: none;
+    background-color: transparent;
     color: inherit;
     line-height: 1;
     min-height: initial;

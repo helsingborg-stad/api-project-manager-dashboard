@@ -60,6 +60,7 @@ class App
         $apiUrl = get_field('project_manager_dashboard_api_url', 'options');
         $classNames = implode(' ', [
             'js-api-project-manager-dashboard',
+            'api-project-manager-dashboard',
             'api-project-manager-dashboard--bg-white',
             'wp-admin-reset-css'
         ]);
