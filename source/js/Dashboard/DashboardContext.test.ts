@@ -1,4 +1,4 @@
-import { createEmptyFilters, createGraph, DashboardFilter, DashboardGraph, DashboardProject, mapInnovationProjectToDashboardProject } from "./DashboardContext"
+import { createEmptyFilters, createGraph, DashboardFilter, DashboardProject } from "./DashboardContext"
 
 
 const createEmptyProject = (): DashboardProject => ({

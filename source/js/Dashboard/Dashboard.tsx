@@ -4,7 +4,7 @@ import DashboardContext, { useDashboard } from "./DashboardContext";
 import Charts from "./Charts";
 import Filters from "./Filters";
 import ProjectList from "./ProjectList";
-import { Box, Card, CardContent, CircularProgress, LinearProgress, Skeleton, Typography } from "@mui/material";
+import { Card, CardContent, LinearProgress, Typography } from "@mui/material";
 
 
 export interface DashboardPropsType {

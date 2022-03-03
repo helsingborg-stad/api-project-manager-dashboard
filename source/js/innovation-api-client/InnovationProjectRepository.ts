@@ -36,7 +36,6 @@ export function createInnovationProjectRepository (endpoint: string): Innovation
             let more = true
             while (more) {
                 const url = makePagedEndpoint(projects.length)
-                console.log(url)
                 const page = await fetch(url, {method: "GET"})
                     .then(throwOnResponseError)
                     .then(response => response.json())

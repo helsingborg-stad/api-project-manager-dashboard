@@ -186,7 +186,7 @@ function createActions (dispatch: (mutator: DashboardReducerAction) => void) {
 }
 
 export function useDashboard (repository: InnovationProjectRepository): DashboardContextType {
-    const [{projects, error, filters, graph: graph}, dispatch] = useReducer(dashboardReducer, {error: null, projects: [], filters: createEmptyFilters(), graph: createGraph([], createEmptyFilters())})
+    const [{projects, error, filters, graph}, dispatch] = useReducer(dashboardReducer, {error: null, projects: [], filters: createEmptyFilters(), graph: createGraph([], createEmptyFilters())})
     const [loadPromise, setLoadPromise] = useState<Promise<void>|null>(null)    
     const actions = useMemo(() => createActions(dispatch), [])
 
