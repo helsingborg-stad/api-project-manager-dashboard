@@ -1,4 +1,4 @@
-import { DashboardGraph, DashboardProject } from "../DashboardContext";
+import { DashboardGraph, DashboardProject } from "../model/DashboardContext";
 const getBackgroundColors = () => [
   'rgba(255, 99, 132, 0.5)',
   'rgba(54, 162, 235, 0.5)',

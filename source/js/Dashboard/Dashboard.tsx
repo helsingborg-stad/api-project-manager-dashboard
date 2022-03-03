@@ -1,6 +1,6 @@
 import { Fragment, useLayoutEffect, useState } from "react";
 import { createInnovationProjectRepository } from "../innovation-api-client/InnovationProjectRepository";
-import DashboardContext, { useDashboard } from "./DashboardContext";
+import DashboardContext, { useDashboard } from "./model/DashboardContext";
 import Charts from "./Charts";
 import Filters from "./Filters";
 import ProjectList from "./ProjectList";

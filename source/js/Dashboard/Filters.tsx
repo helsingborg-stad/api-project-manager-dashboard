@@ -1,6 +1,7 @@
 import { Autocomplete, Box, Button, Grid, styled, TextField, Typography } from "@mui/material";
 import { Fragment, useContext } from "react";
-import DashboardContext, { DashboardProject } from "./DashboardContext";
+import DashboardContext from "./model/DashboardContext";
+import { DashboardProject } from "./model/types";
 
 const FilterTextField = styled(TextField)(() => ({
     '& fieldset': {

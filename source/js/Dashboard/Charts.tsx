@@ -1,11 +1,12 @@
 import { Box, Grid, styled, Typography } from "@mui/material";
 import { Fragment, useCallback, useContext, useMemo } from "react";
-import DashboardContext, { DashboardGraph, DashboardProject } from "./DashboardContext";
+import DashboardContext from "./model/DashboardContext";
 
 import { Chart as ChartJS, ArcElement, Tooltip, Legend, ChartData, CategoryScale, LinearScale, BarElement, Title, RadialLinearScale, PointElement, LineElement, Filler } from 'chart.js';
-import { Bar, ChartProps, Doughnut, PolarArea, Radar } from 'react-chartjs-2';
+import { Bar, Doughnut, PolarArea, Radar } from 'react-chartjs-2';
 import { mapDoughnutData, mapPolarData, mapRadarData, mapVerticalBarData } from "./charts/chart-data-adapter";
 import { formatFunds } from "./formatting";
+import { DashboardProject } from "./model/types";
 
 ChartJS.register(ArcElement, Tooltip, Legend);
 ChartJS.register(

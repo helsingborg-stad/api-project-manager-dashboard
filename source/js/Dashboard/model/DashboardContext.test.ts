@@ -1,5 +1,6 @@
-import { createEmptyFilters, createGraph, DashboardFilter, DashboardProject } from "./DashboardContext"
-
+import { createEmptyFilters } from "./filters"
+import { createGraph } from "./graph"
+import { DashboardFilter, DashboardProject } from "./types"
 
 const createEmptyProject = (): DashboardProject => ({
     slug: '',
@@ -15,8 +16,6 @@ const createEmptyProject = (): DashboardProject => ({
     organisations: [],
     participants: [],
     partners: [],
-    // platforms: [],
-    // residentInvolvments: [],
     sectors: [],
     status: [],
     technologies: [],
@@ -26,6 +25,7 @@ const createEmptyProject = (): DashboardProject => ({
 })
 
 const createFakeProject = (patch: Partial<DashboardProject>): DashboardProject => ({...createEmptyProject(), ...patch})
+
 const createFakeFilters = (patch: Partial<DashboardFilter>): DashboardFilter => ({...createEmptyFilters(), ...patch})
 
 const dashboardPropertyNames = [

@@ -1,7 +1,7 @@
 import { Box, Button, Table, TableBody, TableCell, TableContainer, TableFooter, TableHead, TableRow } from "@mui/material";
 import { Fragment, useContext, useState } from "react";
 import { Check, ExpandLess, ExpandMore } from "@mui/icons-material"
-import DashboardContext from "./DashboardContext";
+import DashboardContext from "./model/DashboardContext";
 import { formatDate, formatFunds } from "./formatting";
 
 export default function ProjectList () {
