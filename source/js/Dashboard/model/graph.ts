@@ -8,16 +8,6 @@ const filterProjects = (projects: DashboardProject[], filters: DashboardFilter) 
         .map(key => key as DashboardDataPropertyName)
         .every(key => matchesFilter(filters[key], p[key])))
 
-const unique = <T>() => {
-    const s = new Set<T>()
-    return (item: T) => {
-        if (s.has(item)) {
-            return false
-        }
-        s.add(item)
-        return true
-    }
-}
 
 export function createGraph (sourceProjects: DashboardProject[], sourceFilters: DashboardFilter): DashboardGraph {
     const lookupBy = (projects: DashboardProject[], getKeys: (project: DashboardProject) => string[]): Record<string, DashboardProject[]> => 
@@ -43,7 +33,7 @@ export function createGraph (sourceProjects: DashboardProject[], sourceFilters: 
 
     return {
         lookupBy: (getKeys: (project: DashboardProject) => string[]) => lookupBy(projects, getKeys),
-        derive: (filters: Partial<DashboardFilter>) => createGraph(sourceProjects, {...sourceFilters,...filters }),
+        derive: (filters: Partial<DashboardFilter>) => createGraph(sourceProjects, {...sourceFilters,...filters}),
         projects: projects,
         challengeCategories: uniqueNames(p => p.challengeCategories),
         challenges: uniqueNames(p => p.challenges),
