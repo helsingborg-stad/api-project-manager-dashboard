@@ -42,7 +42,9 @@ export interface DashboardFilter extends DashboardProjectDataProps<string> {
 export interface DashboardGraph extends DashboardProjectDataProps<string[]> {
     projects: DashboardProject[],
     // group projects by dimension
-    lookupBy: (getKeys: (project: DashboardProject) => string[]) => Record<string, DashboardProject[]>
+    lookupBy: (getKeys: (project: DashboardProject) => string[]) => Record<string, DashboardProject[]>,
+    // create a new graph given new filters
+    derive: (filters: Partial<DashboardFilter>) => DashboardGraph
 }
 
 export interface DashboardContextType {

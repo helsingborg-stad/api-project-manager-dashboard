@@ -1,7 +1,7 @@
 import { Autocomplete, Box, Button, Grid, styled, TextField, Typography } from "@mui/material";
 import { Fragment, useContext } from "react";
 import DashboardContext from "./model/DashboardContext";
-import { DashboardProject } from "./model/types";
+import { DashboardDataPropertyName, DashboardProject } from "./model/types";
 
 const FilterTextField = styled(TextField)(() => ({
     '& fieldset': {
@@ -17,29 +17,33 @@ export default function Filters () {
         resetFilter
     } = useContext(DashboardContext)
 
-    const select = (label: string, value: string, values: string[], getTaxonomy: (p: DashboardProject) => string[], setValue: (value: string) => unknown) => {
-        const projectCountByOptionValue = graph.lookupBy(getTaxonomy)
-        const options = values.map(v => ({
-            label: `${v} (${(projectCountByOptionValue[v] || []).length})`,
-            value: v
+    const select = (label: string, property: DashboardDataPropertyName) => {
+        const graphWithoutThisFilterSet = graph.derive({[property]: ''})
+        const value = filters[property]
+        const projectsByValue = graphWithoutThisFilterSet.lookupBy(p => p[property])
+        const options = graphWithoutThisFilterSet[property].map(value => ({
+            value,
+            label: `${value} (${projectsByValue[value].length})`
         }))
-        const option = value ? {label: value, value} : {label: '', value: ''}
+
+        const selectedOption = options.find(tuple => tuple.value === value) || {label: '', value: ''}
+
         return (
             <Grid item xs={1}>
                 <Autocomplete
-                    value={option}
+                    value={selectedOption}
                     disablePortal
                     id="combo-box-demo"
                     options={options}
-                    onChange={(event, newValue) => setValue(newValue?.value || '')}
+                    onChange={(event, newValue) => applyFilter({[property]: newValue?.value || ''})}
                     renderInput={(params) => <FilterTextField 
                         {...params}
-                        label={`${label} (${values?.length || 0})`}
+                        label={`${label}`}
                         variant="outlined"
                         />}
                     />
             </Grid>)
-        }
+    }
 
     return (
         <Fragment>
@@ -49,24 +53,9 @@ export default function Filters () {
                 <Button variant="text" onClick={() => resetFilter()}>RENSA FILTER</Button>
             </Box>
             <Grid container columns={{ xs: 1, sm: 3 }} direction="row" columnSpacing={{ xs: '1rem' }}>
-                {select(
-                    'Organisation',
-                    filters.organisations,
-                    graph.organisations, 
-                    p => p.organisations,
-                    v => applyFilter({organisations: v}))}
-                {select(
-                    'Status på initiativ',
-                    filters.status,
-                    graph.status,
-                    p => p.status,
-                    v => applyFilter({status: v}))}
-                {select(
-                    'Teknologier',
-                    filters.technologies,
-                    graph.technologies,
-                    p => p.technologies,
-                    v => applyFilter({technologies: v}))}
+                {select('Organisation', 'organisations')}
+                {select('Status på initiativ', 'status')}
+                {select('Teknologier', 'technologies')}
             </Grid>
         </Fragment>)
 }
