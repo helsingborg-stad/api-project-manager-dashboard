@@ -26,12 +26,10 @@ export default function Filters () {
             label: `${value} (${projectsByValue[value].length})`
         }))
 
-        const selectedOption = options.find(tuple => tuple.value === value) || {label: '', value: ''}
-
         return (
             <Grid item xs={1}>
                 <Autocomplete
-                    value={selectedOption}
+                    isOptionEqualToValue={(o, v) => o.value === v.value}
                     disablePortal
                     id="combo-box-demo"
                     options={options}
