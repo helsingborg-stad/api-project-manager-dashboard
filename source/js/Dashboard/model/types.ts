@@ -1,7 +1,6 @@
 /**
  * Common layout for projects and filters
  */
-
  export type DashboardDataPropertyName = 
     'challengeCategories'
     | 'expectedImpacts'

@@ -9,4 +9,4 @@ export interface DashboardReducerState {
 
 export type DashboardReducerAction = (state: DashboardReducerState) => DashboardReducerState
 
-export const dashboardReducer = (state: DashboardReducerState, mutate: DashboardReducerAction): DashboardReducerState => mutate(state)
+export const DashboardReducer = (state: DashboardReducerState, mutate: DashboardReducerAction): DashboardReducerState => mutate(state)

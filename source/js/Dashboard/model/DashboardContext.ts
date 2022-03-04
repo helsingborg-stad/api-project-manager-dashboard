@@ -1,7 +1,7 @@
 import { createContext, useCallback, useMemo, useReducer, useState } from "react";
 import { InnovationProjectRepository, WPProject } from "../../innovation-api-client/InnovationProjectRepository";
 import { DashboardContextType, DashboardDataPropertyName, DashboardFilter, DashboardGraph, DashboardProject } from "./types";
-import { dashboardReducer as DashboardReducer, DashboardReducerAction, DashboardReducerState } from "./reducer";
+import { DashboardReducer } from "./reducer";
 import { createActions } from "./actions";
 import { createGraph } from "./graph";
 import { createEmptyFilters } from "./filters";
