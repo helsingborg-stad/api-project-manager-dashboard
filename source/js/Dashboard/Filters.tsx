@@ -19,16 +19,18 @@ export default function Filters () {
 
     const select = (label: string, property: DashboardDataPropertyName) => {
         const graphWithoutThisFilterSet = graph.derive({[property]: ''})
-        const value = filters[property]
         const projectsByValue = graphWithoutThisFilterSet.lookupBy(p => p[property])
         const options = graphWithoutThisFilterSet[property].map(value => ({
             value,
             label: `${value} (${projectsByValue[value].length})`
         }))
-
+        const selectedOption = options
+            .find(o => o.value === filters[property])
+            || {value: '', label: ''}
         return (
             <Grid item xs={1}>
                 <Autocomplete
+                    value={selectedOption}
                     isOptionEqualToValue={(o, v) => o.value === v.value}
                     disablePortal
                     id="combo-box-demo"
