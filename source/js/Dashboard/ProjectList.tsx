@@ -1,16 +1,23 @@
-import { Box, Button, Table, TableBody, TableCell, TableContainer, TableFooter, TableHead, TableRow } from "@mui/material";
-import { Fragment, useContext, useState } from "react";
-import { Check, ExpandLess, ExpandMore } from "@mui/icons-material"
+import { Box, Button, Link, Table, TableBody, TableCell, TableContainer, TableFooter, TableHead, TableRow } from "@mui/material";
+import { Fragment, useCallback, useContext, useState } from "react";
+import { Check, ExpandLess, ExpandMore, Link as LinkIcon, OpenInNew } from "@mui/icons-material"
 import DashboardContext from "./model/DashboardContext";
 import { formatDate, formatFunds } from "./formatting";
+import DashboardConfigContext from "./DashboardConfigContext";
+
+const createContentLinkFactory = (contentEndpoint: string) => {
+    const endpoint = contentEndpoint.endsWith('/') ? contentEndpoint : `${contentEndpoint}/`
+    return (slug: string) => `${endpoint}${slug}`
+}
 
 export default function ProjectList () {
     const {
         graph    
     } = useContext(DashboardContext)
+    const {contentEndpoint} = useContext(DashboardConfigContext)
     const [expanded, setExpanded] = useState(false)
     const toggleExpanded = () => setExpanded(!expanded)
-
+    const contentLink = useCallback(createContentLinkFactory(contentEndpoint), [contentEndpoint])
     const createCsvContent = () => {
         const headerRows = [
             [
@@ -102,7 +109,11 @@ export default function ProjectList () {
                     <TableBody>
                         {graph.projects.map(project => (
                             <TableRow key={project.slug}>
-                                <TableCell>{project.summary.title}</TableCell>
+                                <TableCell>
+                                    <Link href={contentLink(project.slug)} target="_blank" sx={{ display: 'flex', alignItems: 'center' }}>
+                                            <OpenInNew/>&nbsp;{project.summary.title}
+                                    </Link>
+                                </TableCell>
                                 <TableCell>{formatFunds(project.fundsGranted)}</TableCell>
                                 <TableCell>{formatFunds(project.fundsUsed)}</TableCell>
                                 <TableCell>{formatFlag(project.summary.isCityWide)}</TableCell>
