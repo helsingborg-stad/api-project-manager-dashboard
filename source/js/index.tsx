@@ -6,7 +6,9 @@ import reportWebVitals from './reportWebVitals';
 
 ReactDOM.render(
   <React.StrictMode>
-    <App />
+    <App
+      apiEndpoint='https://beta.api.helsingborg.se/innovation/wp-json/wp/v2/project'
+      contentEndpoint='https://innovation.hbgtest.se/initiativ'/>
   </React.StrictMode>,
   document.getElementById('root')
 );
