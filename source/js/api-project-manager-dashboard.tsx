@@ -9,7 +9,7 @@ const DASHBOARD_CONTENT_ENDPOINT_ATTRIBUTE = 'data-content-endpoint';
 const renderDashboard = (element: Element, apiEndpoint: string, contentEndpoint: string) => {
   ReactDOM.render(
     <React.StrictMode>
-      <App apiUrl={apiEndpoint} />
+      <App apiEndpoint={apiEndpoint} contentEndpoint={contentEndpoint} />
     </React.StrictMode>,
     element,
   );
