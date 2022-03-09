@@ -3,12 +3,13 @@ import ReactDOM from 'react-dom';
 import App from './App';
 
 const DASHBOARD_ENTRY_SELECTOR = '.js-api-project-manager-dashboard';
-const DASHBOARD_API_URL_ATTRIBUTE = 'data-api-url';
+const DASHBOARD_API_ENDPOINT_ATTRIBUTE = 'data-api-endpoint';
+const DASHBOARD_CONTENT_ENDPOINT_ATTRIBUTE = 'data-content-endpoint';
 
-const renderDashboard = (element: Element, url: string) => {
+const renderDashboard = (element: Element, apiEndpoint: string, contentEndpoint: string) => {
   ReactDOM.render(
     <React.StrictMode>
-      <App apiUrl={url} />
+      <App apiUrl={apiEndpoint} />
     </React.StrictMode>,
     element,
   );
@@ -19,10 +20,11 @@ const init = () => {
   dashboardElements
     .map((element: Element) => ({
       element: element,
-      url: element.getAttribute(DASHBOARD_API_URL_ATTRIBUTE) ?? '',
+      apiEndpoint: element.getAttribute(DASHBOARD_API_ENDPOINT_ATTRIBUTE) ?? '',
+      contentEndpoint: element.getAttribute(DASHBOARD_CONTENT_ENDPOINT_ATTRIBUTE) ?? '',
     }))
-    .filter(({ url }) => url.length > 0)
-    .forEach(({ element, url }) => renderDashboard(element, url));
+    .filter(({ apiEndpoint, contentEndpoint }) => apiEndpoint.length > 0 && contentEndpoint.length > 0)
+    .forEach(({ element, apiEndpoint, contentEndpoint }) => renderDashboard(element, apiEndpoint, contentEndpoint));
 };
 
 document.addEventListener('DOMContentLoaded', init);
