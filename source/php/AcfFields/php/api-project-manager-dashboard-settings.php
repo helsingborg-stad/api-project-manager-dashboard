@@ -7,10 +7,29 @@
     'fields' => array(
         0 => array(
             'key' => 'field_621e5622c4978',
-            'label' => __('API URL', 'api-project-manager-dashboard'),
+            'label' => __('API Endpoint (URL)', 'api-project-manager-dashboard'),
             'name' => 'project_manager_dashboard_api_url',
             'type' => 'text',
             'instructions' => __('eg. https://your-domain/wp-json/wp/v2/project', 'api-project-manager-dashboard'),
+            'required' => 0,
+            'conditional_logic' => 0,
+            'wrapper' => array(
+                'width' => '',
+                'class' => '',
+                'id' => '',
+            ),
+            'default_value' => '',
+            'placeholder' => '',
+            'prepend' => '',
+            'append' => '',
+            'maxlength' => '',
+        ),
+        1 => array(
+            'key' => 'field_6228b91c03da0',
+            'label' => __('Content Endpoint (URL)', 'api-project-manager-dashboard'),
+            'name' => 'project_manager_dashboard_content_endpoint',
+            'type' => 'text',
+            'instructions' => __('eg. https://your-domain.com/intiatives', 'api-project-manager-dashboard'),
             'required' => 0,
             'conditional_logic' => 0,
             'wrapper' => array(

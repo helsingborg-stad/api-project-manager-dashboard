@@ -4,10 +4,29 @@
     "fields": [
         {
             "key": "field_621e5622c4978",
-            "label": "API URL",
+            "label": "API Endpoint (URL)",
             "name": "project_manager_dashboard_api_url",
             "type": "text",
             "instructions": "eg. https:\/\/your-domain\/wp-json\/wp\/v2\/project",
+            "required": 0,
+            "conditional_logic": 0,
+            "wrapper": {
+                "width": "",
+                "class": "",
+                "id": ""
+            },
+            "default_value": "",
+            "placeholder": "",
+            "prepend": "",
+            "append": "",
+            "maxlength": ""
+        },
+        {
+            "key": "field_6228b91c03da0",
+            "label": "Content Endpoint (URL)",
+            "name": "project_manager_dashboard_content_endpoint",
+            "type": "text",
+            "instructions": "eg. https:\/\/your-domain.com\/intiatives",
             "required": 0,
             "conditional_logic": 0,
             "wrapper": {
