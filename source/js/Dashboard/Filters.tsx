@@ -1,7 +1,7 @@
-import { Autocomplete, Box, Button, Grid, styled, TextField, Typography } from "@mui/material";
-import { Fragment, useContext } from "react";
+import { Autocomplete, Box, Button, Chip, Grid, styled, TextField, Typography } from "@mui/material";
+import { useContext } from "react";
 import DashboardContext from "./model/DashboardContext";
-import { DashboardDataPropertyName, DashboardProject } from "./model/types";
+import { DashboardDataPropertyName } from "./model/types";
 
 const FilterTextField = styled(TextField)(() => ({
     '& fieldset': {
@@ -10,6 +10,11 @@ const FilterTextField = styled(TextField)(() => ({
   }))
 
 export default function Filters () {
+    type Option = {
+        label: string,
+        value: string
+    }
+
     const {
         graph,
         filters,
@@ -18,35 +23,40 @@ export default function Filters () {
     } = useContext(DashboardContext)
 
     const select = (label: string, property: DashboardDataPropertyName) => {
-        const graphWithoutThisFilterSet = graph.derive({[property]: ''})
+        const graphWithoutThisFilterSet = graph.derive({[property]: []})
         const projectsByValue = graphWithoutThisFilterSet.lookupBy(p => p[property])
-        const options = graphWithoutThisFilterSet[property].map(value => ({
+        const options: Option[] = graphWithoutThisFilterSet[property].map(value => ({
             value,
             label: `${value} (${projectsByValue[value].length})`
         }))
-        const selectedOption = options
-            .find(o => o.value === filters[property])
-            || {value: '', label: ''}
+        const selectedOptions = options
+            .filter(o => filters[property]?.includes(o.value))
         return (
             <Grid item xs={1}>
                 <Autocomplete
-                    value={selectedOption}
+                    multiple
                     isOptionEqualToValue={(o, v) => o.value === v.value}
+                    value={selectedOptions}
                     disablePortal
                     id="combo-box-demo"
                     options={options}
-                    onChange={(event, newValue) => applyFilter({[property]: newValue?.value || ''})}
+                    onChange={(event, newValue) => applyFilter({[property]: newValue.map(v => v.value)})}
                     renderInput={(params) => <FilterTextField 
                         {...params}
                         label={`${label}`}
                         variant="outlined"
-                        />}
+                    />}
+                    renderTags={(value: Option[], getTagProps: (_: any) => any) =>
+                        value.map((option, index) => (
+                            <Chip variant="outlined" label={option.label} {...getTagProps({ index })} />
+                        ))
+                        }
                     />
             </Grid>)
     }
 
     return (
-        <Fragment>
+        <>
             <Box sx={{ display: 'flex', alignItems: 'center' }}>
                 <Typography variant="subtitle1">FILTRERA</Typography>
                 <Box sx={{ flex: 1 }} />
@@ -57,5 +67,5 @@ export default function Filters () {
                 {select('Status på initiativ', 'status')}
                 {select('Teknologier', 'technologies')}
             </Grid>
-        </Fragment>)
+        </>)
 }

@@ -30,7 +30,10 @@ export function useDashboard (repository: InnovationProjectRepository): Dashboar
         const load = repository
             .loadInnovationProjects()
             .then(projects => actions.reset(projects, null))
-            .catch(error => actions.reset([], error))
+            .catch(error => {
+                actions.reset([], error)
+                throw error
+            })
         setLoadPromise(load)
         return load
     }, [actions, loadPromise, repository])

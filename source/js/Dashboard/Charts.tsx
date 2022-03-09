@@ -1,5 +1,5 @@
 import { Box, Grid, styled, Typography } from "@mui/material";
-import { Fragment, useCallback, useContext, useMemo } from "react";
+import { useCallback, useContext, useMemo } from "react";
 import DashboardContext from "./model/DashboardContext";
 
 import { Chart as ChartJS, ArcElement, Tooltip, Legend, ChartData, CategoryScale, LinearScale, BarElement, Title, RadialLinearScale, PointElement, LineElement, Filler } from 'chart.js';
@@ -103,7 +103,7 @@ export default function Charts(): JSX.Element {
     const fundsText = (amounts: number[]) => formatFunds(amounts.reduce((sum, amount) => sum + amount, 0))
     
     return (
-        <Fragment>
+        <>
             <Grid container columns={{ xs: 1, sm: 3 }} direction="row" columnSpacing={{ xs: '1rem' }} rowSpacing={{ xs: '1rem' }}>
                 <Grid item xs={3} sm={1} rowSpacing={{ xs: '1rem' }}>
                     {counter('Antal initiativ', graph.projects.length) }
@@ -120,5 +120,5 @@ export default function Charts(): JSX.Element {
                     {polarAreaChart('Kategorier', p => p.sectors)}
                 </Grid>
             </Grid>
-        </Fragment>)
+        </>)
 }

@@ -1,6 +1,8 @@
 import { DashboardDataPropertyName, DashboardFilter, DashboardGraph, DashboardProject } from "./types"
 
-const matchesFilter = (value: string|undefined, values: string[]) => !value || values.includes(value)
+// const matchesFilter = (value: string|undefined, values: string[]) => !value || values.includes(value)
+
+const matchesFilter = (selected: string[]|undefined, values: string[]) => selected ? selected.length > 0 ? selected.some(s => values.includes(s)) : true : true
 
 const filterProjects = (projects: DashboardProject[], filters: DashboardFilter) => projects.filter(p => 
     Object

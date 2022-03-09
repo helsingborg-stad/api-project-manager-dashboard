@@ -34,7 +34,7 @@ export interface DashboardProjectSummary {
 }
 
 // Contains user selected filter values 
-export interface DashboardFilter extends DashboardProjectDataProps<string> {
+export interface DashboardFilter extends DashboardProjectDataProps<string[]> {
 }
 
 // Given a selection from filters, contains all reachable projects and 

@@ -1,5 +1,5 @@
 import { Box, Button, Link, Table, TableBody, TableCell, TableContainer, TableFooter, TableHead, TableRow } from "@mui/material";
-import { Fragment, useCallback, useContext, useState } from "react";
+import { useCallback, useContext, useState } from "react";
 import { Check, ExpandLess, ExpandMore, Link as LinkIcon, OpenInNew } from "@mui/icons-material"
 import DashboardContext from "./model/DashboardContext";
 import { formatDate, formatFunds } from "./formatting";
@@ -91,7 +91,7 @@ export default function ProjectList () {
             </Box>
         </Box>)
     return (
-        <Fragment>
+        <>
             {header()}
             {expanded && <TableContainer>
                 <Table aria-label="Innovationsprojekt">
@@ -135,5 +135,5 @@ export default function ProjectList () {
                     </TableFooter>
                 </Table>
             </TableContainer>}
-        </Fragment>)
+        </>)
 }
