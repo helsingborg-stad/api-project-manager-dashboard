@@ -18,13 +18,13 @@ class App
         if (
             empty($_GET['page'])
             || $_GET['page'] !== 'api-project-manager-dashboard'
-            || get_field('project_manager_dashboard_api_url', 'options')
+            || (get_field('project_manager_dashboard_api_url', 'options') && get_field('project_manager_dashboard_content_endpoint', 'options'))
         ) {
             return;
         }
 
         $class = 'notice notice-error';
-        $message = __('Dashboard: Please enter a valid API URL in the options page.', API_PROJECT_MANAGER_DASHBOARD_TEXT_DOMAIN);
+        $message = __('Dashboard: Please enter valid endpoint URL\'s in the options page.', API_PROJECT_MANAGER_DASHBOARD_TEXT_DOMAIN);
 
         printf('<div class="%1$s"><p>%2$s</p></div>', esc_attr($class), esc_html($message));
     }
@@ -57,7 +57,8 @@ class App
 
     public function renderAdminPageForDashboard()
     {
-        $apiUrl = get_field('project_manager_dashboard_api_url', 'options');
+        $apiEndpoint = get_field('project_manager_dashboard_api_url', 'options');
+        $contentEndpoint = get_field('project_manager_dashboard_content_endpoint', 'options');
         $classNames = implode(' ', [
             'js-api-project-manager-dashboard',
             'api-project-manager-dashboard',
@@ -65,8 +66,8 @@ class App
             'wp-admin-reset-css'
         ]);
 
-        if ($apiUrl) {
-            printf('<div class="%1$s" data-api-url="%2$s"></div>', esc_attr($classNames), esc_html($apiUrl));
+        if ($apiEndpoint && $contentEndpoint) {
+            printf('<div class="%1$s" data-api-endpoint="%2$s" data-content-endpoint="%3$s"></div>', esc_attr($classNames), esc_html($apiEndpoint), esc_html($contentEndpoint));
         }
     }
 
