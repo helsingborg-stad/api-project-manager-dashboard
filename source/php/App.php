@@ -8,6 +8,8 @@ class App
     {
         add_action('admin_enqueue_scripts', array($this, 'enqueueStyles'));
         add_action('admin_enqueue_scripts', array($this, 'enqueueScripts'));
+        add_action('wp_enqueue_scripts', array($this, 'enqueueStyles'));
+        add_action('wp_enqueue_scripts', array($this, 'enqueueScripts'));
         add_action('admin_menu', array($this, 'registerAdminPageForDashboard'));
         add_action('init', array($this, 'registerOptionsPageForDashboard'));
         add_action('admin_notices', array($this, 'printAdminPageNoticeForDashboard'), 100, 0);
@@ -67,6 +69,8 @@ class App
         ]);
 
         if ($apiEndpoint && $contentEndpoint) {
+            wp_enqueue_style('api-project-manager-dashboard-css');
+            wp_enqueue_script('api-project-manager-dashboard-js');
             printf('<div class="%1$s" data-api-endpoint="%2$s" data-content-endpoint="%3$s"></div>', esc_attr($classNames), esc_html($apiEndpoint), esc_html($contentEndpoint));
         }
     }
@@ -77,11 +81,7 @@ class App
      */
     public function enqueueStyles()
     {
-        if (empty($_GET['page']) || $_GET['page'] !== 'api-project-manager-dashboard') {
-            return;
-        }
-
-        wp_enqueue_style(
+        wp_register_style(
             'api-project-manager-dashboard-css',
             API_PROJECT_MANAGER_DASHBOARD_URL . '/dist/' .
             \ApiProjectManagerDashboard\Helper\CacheBust::name('css/api-project-manager-dashboard.css')
@@ -94,11 +94,7 @@ class App
      */
     public function enqueueScripts()
     {
-        if (empty($_GET['page']) || $_GET['page'] !== 'api-project-manager-dashboard') {
-            return;
-        }
-
-        wp_enqueue_script(
+        wp_register_script(
             'api-project-manager-dashboard-js',
             API_PROJECT_MANAGER_DASHBOARD_URL . 'dist/' .
             \ApiProjectManagerDashboard\Helper\CacheBust::name('js/api-project-manager-dashboard.js', false)
