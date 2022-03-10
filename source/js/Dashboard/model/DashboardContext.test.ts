@@ -51,7 +51,7 @@ describe('createGraph(<projects>, <filters>)', () => {
                 createFakeProject({slug: 'P3', [propertyName]: ['a', 'd']}),
                 createFakeProject({slug: 'P4', [propertyName]: ['c', 'd', 'e']})
             ]
-            const graph = createGraph(projects, createFakeFilters({[propertyName]: 'a'}))
+            const graph = createGraph(projects, createFakeFilters({[propertyName]: ['a']}))
 
             expect({...graph}[propertyName] as string[]).toEqual(['a', 'b', 'c', 'd'])
             expect(graph.projects.map(({slug}) => slug)).toEqual(['P1', 'P3'])
