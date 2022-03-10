@@ -11,20 +11,6 @@ class App
         add_action('admin_menu', array($this, 'registerAdminPageForDashboard'));
         add_action('init', array($this, 'registerOptionsPageForDashboard'));
         add_action('admin_notices', array($this, 'printAdminPageNoticeForDashboard'), 100, 0);
-
-        add_action('plugins_loaded', function () {
-            if (function_exists('modularity_register_module')) {
-                modularity_register_module(
-                    API_PROJECT_MANAGER_DASHBOARD_PATH . 'source/php/Module/',
-                    'InnovationDashboard'
-                );
-            }
-        });
-
-        add_filter('Modularity/Module/TemplatePath', function ($paths) {
-            $paths[] = API_PROJECT_MANAGER_DASHBOARD_PATH . 'source/php/Module/views/';
-            return $paths;
-        });
     }
 
     public function printAdminPageNoticeForDashboard()

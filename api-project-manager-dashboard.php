@@ -45,5 +45,19 @@ add_action('plugins_loaded', function () {
     $acfExportManager->import();
 });
 
+add_action('plugins_loaded', function () {
+    if (function_exists('modularity_register_module')) {
+        modularity_register_module(
+            API_PROJECT_MANAGER_DASHBOARD_PATH . 'source/php/Module/',
+            'InnovationDashboard'
+        );
+    }
+});
+
+add_filter('Modularity/Module/TemplatePath', function ($paths) {
+    $paths[] = API_PROJECT_MANAGER_DASHBOARD_PATH . 'source/php/Module/views/';
+    return $paths;
+});
+
 // Start application
 new ApiProjectManagerDashboard\App();
