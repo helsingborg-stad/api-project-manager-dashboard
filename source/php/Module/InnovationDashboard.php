@@ -23,6 +23,8 @@ class InnovationDashboard extends \Modularity\Module
             'js-api-project-manager-dashboard',
             'api-project-manager-dashboard',
             'api-project-manager-dashboard--bg-white',
+            'u-mb-5',
+            'u-pt-2',
         ]);
 
         return $data;
