@@ -1,30 +1,28 @@
 import { Box, Grid, styled, Typography } from "@mui/material";
-import { useCallback, useContext, useMemo } from "react";
+import { useCallback, useContext } from "react";
 import DashboardContext from "./model/DashboardContext";
 
-import { Chart as ChartJS, ArcElement, Tooltip, Legend, ChartData, CategoryScale, LinearScale, BarElement, Title, RadialLinearScale, PointElement, LineElement, Filler } from 'chart.js';
+import { Chart as ChartJS, ArcElement, Tooltip, Legend, CategoryScale, LinearScale, BarElement, Title, RadialLinearScale, PointElement, LineElement, Filler } from 'chart.js';
 import { Bar, Doughnut, PolarArea, Radar } from 'react-chartjs-2';
-import { mapDoughnutData, mapPolarData, mapRadarData, mapVerticalBarData } from "./charts/chart-data-adapter";
 import { formatFunds } from "./formatting";
 import { DashboardProject } from "./model/types";
+import { mapDoughnutData } from "./charts/map-doughnut-data";
+import { mapVerticalBarData } from "./charts/map-verticalbar-data";
+import { mapRadarData } from "./charts/map-radar-data";
+import { mapPolarData } from "./charts/map-polar-data";
 
-ChartJS.register(ArcElement, Tooltip, Legend);
 ChartJS.register(
+    ArcElement, 
+    BarElement,
+    LineElement,
+    PointElement,
     CategoryScale,
     LinearScale,
-    BarElement,
-    Title,
-    Tooltip,
-    Legend
-  );
-  ChartJS.register(
     RadialLinearScale,
-    PointElement,
-    LineElement,
     Filler,
-    Tooltip,
-    Legend
-  );
+    Legend,
+    Title,
+    Tooltip);
 
   const CounterBox = styled(Box)({
       borderRadius: '2rem',
@@ -46,7 +44,7 @@ const ChartBox = styled(Box)({
     marginBottom: '1rem'
 })
 export default function Charts(): JSX.Element {
-    const {graph, filters} = useContext(DashboardContext)
+    const {graph} = useContext(DashboardContext)
 
     const createDoughnutData = useCallback((label, getTaxonomy) => mapDoughnutData(label, graph, getTaxonomy), [graph])
     const createCreateVerticalbartData = useCallback((label, getTaxonomy) => mapVerticalBarData(label, graph, getTaxonomy), [graph])

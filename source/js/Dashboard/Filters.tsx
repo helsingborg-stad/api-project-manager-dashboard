@@ -1,5 +1,5 @@
 import { ExpandLess, ExpandMore } from "@mui/icons-material";
-import { Autocomplete, Box, Button, Chip, Grid, styled, TextField, Typography } from "@mui/material";
+import { Autocomplete, Box, Button, Chip, Grid, styled, TextField } from "@mui/material";
 import { useContext, useState } from "react";
 import DashboardContext from "./model/DashboardContext";
 import { DashboardDataPropertyName } from "./model/types";
@@ -58,7 +58,7 @@ export default function Filters () {
         const selectedOptions = options
             .filter(o => filters[property]?.includes(o.value))
         return (
-            <Grid item xs={1}>
+            <Grid item xs={1} key={property}>
                 <Autocomplete
                     multiple
                     isOptionEqualToValue={(o, v) => o.value === v.value}
