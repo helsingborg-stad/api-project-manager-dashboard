@@ -1,6 +1,6 @@
 import { createContext, useCallback, useMemo, useReducer, useState } from "react";
-import { InnovationProjectRepository, WPProject } from "../../innovation-api-client/InnovationProjectRepository";
-import { DashboardContextType, DashboardDataPropertyName, DashboardFilter, DashboardGraph, DashboardProject } from "./types";
+import { InnovationProjectRepository } from "../../innovation-api-client/InnovationProjectRepository";
+import { DashboardContextType } from "./types";
 import { DashboardReducer } from "./reducer";
 import { createActions } from "./actions";
 import { createGraph } from "./graph";
@@ -24,10 +24,7 @@ export function useDashboard (repository: InnovationProjectRepository): Dashboar
     const actions = useMemo(() => createActions(dispatch), [])
 
     const requestLoadProjects = useCallback((): Promise<void> => {
-        if (loadPromise) {
-            return loadPromise
-        }
-        const load = repository
+        const load = loadPromise || repository
             .loadInnovationProjects()
             .then(projects => actions.reset(projects, null))
             .catch(error => {

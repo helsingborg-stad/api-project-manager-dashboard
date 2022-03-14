@@ -17,10 +17,7 @@ export function createGraph (sourceProjects: DashboardProject[], sourceFilters: 
             .map(project => ({project, keys: getKeys(project)}))
             .reduce((memo, {project, keys}) => {
                 keys.forEach(key => {
-                    if (!Array.isArray(memo[key])) {
-                        memo[key] = []
-                    }
-                    memo[key].push(project)
+                    memo[key] = [...memo[key] || [], project]
                 })
                 return memo
             }, {} as Record<string, DashboardProject[]>)
@@ -43,6 +40,7 @@ export function createGraph (sourceProjects: DashboardProject[], sourceFilters: 
         globalGoals: uniqueNames(p => p.globalGoals),
         innovationPotentials: uniqueNames(p => p.innovationPotentials),
         impactGoals: uniqueNames(p => p.impactGoals),
+        operations: uniqueNames(p => p.operations),
         organisations: uniqueNames(p => p.organisations),
         participants: uniqueNames(p => p.participants),
         partners: uniqueNames(p => p.partners),

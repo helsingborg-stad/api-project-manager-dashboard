@@ -1,7 +1,31 @@
+import { ExpandLess, ExpandMore } from "@mui/icons-material";
 import { Autocomplete, Box, Button, Chip, Grid, styled, TextField, Typography } from "@mui/material";
-import { useContext } from "react";
+import { useContext, useState } from "react";
 import DashboardContext from "./model/DashboardContext";
 import { DashboardDataPropertyName } from "./model/types";
+
+// what we need to know for displaying a filter/select on screeen
+type FilterInfo = {
+    label: string, 
+    property: DashboardDataPropertyName,
+    important?: boolean
+}
+// utility for creating info
+const makeFilterInfo = (label: string, property: DashboardDataPropertyName, important?: boolean): FilterInfo => ({label, property, important}) 
+
+// actual list of filters/selects shown on page
+const configuredFilters: FilterInfo[] = [
+    makeFilterInfo('Organisation', 'organisations', true),
+    makeFilterInfo('Status på initiativ', 'status', true),
+    makeFilterInfo('Teknologier', 'technologies', true),
+    makeFilterInfo('Verksamhet', 'operations'),
+    makeFilterInfo('Kategori', 'sectors'),
+    makeFilterInfo('Deltagare', 'participants'),
+    // makeFilterInfo('Utmaningar', 'challenges'),
+    // makeFilterInfo('Innovationshöjd', 'innovationPotentials'),
+    // makeFilterInfo('Globala mål', 'globalGoals'),
+    // makeFilterInfo('Effekt', 'impactGoals')
+] 
 
 const FilterTextField = styled(TextField)(() => ({
     '& fieldset': {
@@ -21,6 +45,8 @@ export default function Filters () {
         applyFilter,
         resetFilter
     } = useContext(DashboardContext)
+    const [expanded, setExpanded] = useState(false)
+    const toggleExpanded = () => setExpanded(!expanded)
 
     const select = (label: string, property: DashboardDataPropertyName) => {
         const graphWithoutThisFilterSet = graph.derive({[property]: []})
@@ -55,17 +81,24 @@ export default function Filters () {
             </Grid>)
     }
 
+    const header = () => (
+        <Box sx={{ display: 'flex', alignItems: 'center' }}>
+            <Button variant="text" onClick={toggleExpanded}>
+                {expanded ? <ExpandLess /> : <ExpandMore />}
+                {expanded ? 'VISA FÄRRE FILTER' : 'VISA FLER FILTER'}
+            </Button>
+            
+            <Box sx={{ flex: 1 }} />
+            <Button variant="text" onClick={() => resetFilter()}>RENSA FILTER</Button>
+        </Box>)
+
+
     return (
         <>
-            <Box sx={{ display: 'flex', alignItems: 'center' }}>
-                <Typography variant="subtitle1">FILTRERA</Typography>
-                <Box sx={{ flex: 1 }} />
-                <Button variant="text" onClick={() => resetFilter()}>RENSA FILTER</Button>
-            </Box>
-            <Grid container columns={{ xs: 1, sm: 3 }} direction="row" columnSpacing={{ xs: '1rem' }}>
-                {select('Organisation', 'organisations')}
-                {select('Status på initiativ', 'status')}
-                {select('Teknologier', 'technologies')}
+            {header()}
+            <Grid container columns={{ xs: 1, sm: 3 }} direction="row" columnSpacing={{ xs: '1rem' }} rowSpacing={{ xs: '1rem' }}>
+                {configuredFilters.filter(({important}) => important).map(({label, property}) => select(label, property))}
+                {expanded && configuredFilters.filter(({important}) => !important).map(({label, property}) => select(label, property))}
             </Grid>
         </>)
 }

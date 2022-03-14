@@ -13,6 +13,7 @@ const createEmptyProject = (): DashboardProject => ({
     globalGoals: [],
     innovationPotentials: [],
     impactGoals: [],
+    operations: [],
     organisations: [],
     participants: [],
     partners: [],
@@ -28,19 +29,7 @@ const createFakeProject = (patch: Partial<DashboardProject>): DashboardProject =
 
 const createFakeFilters = (patch: Partial<DashboardFilter>): DashboardFilter => ({...createEmptyFilters(), ...patch})
 
-const dashboardPropertyNames = [
-    'challengeCategories',
-    'expectedImpacts',
-    'globalGoals',
-    'impactGoals',
-    'innovationPotentials',
-    'organisations',
-    'participants',
-    'partners',
-    'sectors',
-    'status',
-    'technologies',
-    'challenges']
+const dashboardPropertyNames = Object.keys(createEmptyFilters())
 
 describe('createGraph(<projects>, <filters>)', () => {
     test.each(dashboardPropertyNames.map(propertyName => [propertyName]))

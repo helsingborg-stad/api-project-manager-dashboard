@@ -7,6 +7,7 @@
     | 'globalGoals'
     | 'impactGoals'
     | 'innovationPotentials'
+    | 'operations'
     | 'organisations'
     | 'participants'
     | 'partners'
