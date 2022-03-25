@@ -41,6 +41,7 @@ export function createGraph (sourceProjects: DashboardProject[], sourceFilters: 
         innovationPotentials: uniqueNames(p => p.innovationPotentials),
         impactGoals: uniqueNames(p => p.impactGoals),
         operations: uniqueNames(p => p.operations),
+        operationDomains: uniqueNames(p => p.operationDomains),
         organisations: uniqueNames(p => p.organisations),
         participants: uniqueNames(p => p.participants),
         partners: uniqueNames(p => p.partners),

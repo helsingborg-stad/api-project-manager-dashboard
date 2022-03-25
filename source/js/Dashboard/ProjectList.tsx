@@ -25,7 +25,7 @@ export default function ProjectList () {
                 'Stadsgemensamt', 'Utmanar kärnverksamhet',
                 'Utmaningskategorier', 'Utmaningar',
                 'Föväntad effekt', 'Mål', 'Effektmål',
-                'Innovationshöjd','Verksamhet', 'Organisationer', 'Deltagare', 'Partners', 'Sektorer', 'Status', 'Teknologier'
+                'Innovationshöjd', 'Verksamhetsområde', 'Verksamhet', 'Organisationer', 'Deltagare', 'Partners', 'Sektorer', 'Status', 'Teknologier'
             ]
         ]
         const dataRows = graph.projects
@@ -43,6 +43,7 @@ export default function ProjectList () {
                 project.globalGoals.join(';'),
                 project.impactGoals.join(';'),
                 project.innovationPotentials.join(';'),
+                project.operationDomains.join(';'),
                 project.operations.join(';'),
                 project.organisations.join(';'),
                 project.participants.join(';'),

@@ -1,5 +1,5 @@
 
-    export interface Status {
+    interface Taxonomy {
         term_id: number;
         name: string;
         slug: string;
@@ -21,98 +21,6 @@
         rendered: string;
         protected: boolean;
     }
-
-    export interface ChallengeCategory {
-        term_id: number;
-        name: string;
-        slug: string;
-        term_group: number;
-        term_taxonomy_id: number;
-        taxonomy: string;
-        description: string;
-        parent: number;
-        count: number;
-        filter: string;
-    }
-
-    export interface Technology {
-        term_id: number;
-        name: string;
-        slug: string;
-        term_group: number;
-        term_taxonomy_id: number;
-        taxonomy: string;
-        description: string;
-        parent: number;
-        count: number;
-        filter: string;
-    }
-
-    export interface Sector {
-        term_id: number;
-        name: string;
-        slug: string;
-        term_group: number;
-        term_taxonomy_id: number;
-        taxonomy: string;
-        description: string;
-        parent: number;
-        count: number;
-        filter: string;
-    }
-
-    export interface Organisation {
-        term_id: number;
-        name: string;
-        slug: string;
-        term_group: number;
-        term_taxonomy_id: number;
-        taxonomy: string;
-        description: string;
-        parent: number;
-        count: number;
-        filter: string;
-    }
-    export interface Operation {
-        term_id: number;
-        name: string;
-        slug: string;
-        term_group: number;
-        term_taxonomy_id: number;
-        taxonomy: string;
-        description: string;
-        parent: number;
-        count: number;
-        filter: string;
-    }
-
-    export interface GlobalGoal {
-        term_id: number;
-        name: string;
-        slug: string;
-        term_group: number;
-        term_taxonomy_id: number;
-        taxonomy: string;
-        description: string;
-        parent: number;
-        count: number;
-        filter: string;
-        featured_image: string;
-    }
-
-    export interface Partner {
-        term_id: number;
-        name: string;
-        slug: string;
-        term_group: number;
-        term_taxonomy_id: number;
-        taxonomy: string;
-        description: string;
-        parent: number;
-        count: number;
-        filter: string;
-    }
-
     export interface FundsGranted {
         amount: string;
         date: string;
@@ -155,45 +63,6 @@
         post_type: string;
         post_mime_type: string;
         comment_count: string;
-        filter: string;
-    }
-
-    export interface Participant {
-        term_id: number;
-        name: string;
-        slug: string;
-        term_group: number;
-        term_taxonomy_id: number;
-        taxonomy: string;
-        description: string;
-        parent: number;
-        count: number;
-        filter: string;
-    }
-
-    export interface ExpectedImpact {
-        term_id: number;
-        name: string;
-        slug: string;
-        term_group: number;
-        term_taxonomy_id: number;
-        taxonomy: string;
-        description: string;
-        parent: number;
-        count: number;
-        filter: string;
-    }
-
-    export interface InnovationPotential {
-        term_id: number;
-        name: string;
-        slug: string;
-        term_group: number;
-        term_taxonomy_id: number;
-        taxonomy: string;
-        description: string;
-        parent: number;
-        count: number;
         filter: string;
     }
 
@@ -276,18 +145,19 @@
         modified: Date;
         modified_gmt: Date;
         slug: string;
-        status: Status[];
+        status: Taxonomy[];
         type: string;
         title: Title;
         content: Content;
         featured_media: number;
-        challenge_category: ChallengeCategory[];
-        technology: Technology[];
-        sector: Sector[];
-        operation: Operation[];
-        organisation: Organisation[];
-        global_goal: GlobalGoal[];
-        partner: Partner[];
+        challenge_category: Taxonomy[];
+        technology: Taxonomy[];
+        sector: Taxonomy[];
+        operation: Taxonomy[];
+        operation_domains: Taxonomy[];
+        organisation: Taxonomy[];
+        global_goal: Taxonomy[];
+        partner: Taxonomy[];
         'innovation-potential': number[];
         'expected-impact': number[];
         previous_status_progress_value: string;
@@ -305,10 +175,10 @@
         impact_goals: ImpactGoal[];
         resident_involvement?: any;
         challenge: Challenge;
-        participants: Participant[];
-        expected_impact: ExpectedImpact[];
+        participants: Taxonomy[];
+        expected_impact: Taxonomy[];
         platforms: number[];
-        innovation_potential: InnovationPotential[];
+        innovation_potential: Taxonomy[];
         map: Map;
         contacts: Contact[];
         links?: any;

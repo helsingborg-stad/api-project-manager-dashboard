@@ -14,6 +14,7 @@ const createEmptyProject = (): DashboardProject => ({
     innovationPotentials: [],
     impactGoals: [],
     operations: [],
+    operationDomains: [],
     organisations: [],
     participants: [],
     partners: [],
