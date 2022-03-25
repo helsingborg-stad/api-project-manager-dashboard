@@ -1,5 +1,7 @@
 import { RootObject } from "./types";
 
+const cacheBusterValue = '1'
+
 export type WPProject = RootObject
 export interface InnovationProjectRepository {
     loadInnovationProjects: () => Promise<WPProject[]>
@@ -28,6 +30,7 @@ export function createInnovationProjectRepository (endpoint: string): Innovation
         const url = new URL(endpoint)
         url.searchParams.set('offset', offset.toString())
         url.searchParams.set('per_page', '100')
+        url.searchParams.set('cache-buster', cacheBusterValue)
         return url.toString()
     }
     return {

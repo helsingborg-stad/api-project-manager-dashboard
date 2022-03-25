@@ -154,7 +154,7 @@
         technology: Taxonomy[];
         sector: Taxonomy[];
         operation: Taxonomy[];
-        operation_domains: Taxonomy[];
+        operation_domain: Taxonomy[];
         organisation: Taxonomy[];
         global_goal: Taxonomy[];
         partner: Taxonomy[];

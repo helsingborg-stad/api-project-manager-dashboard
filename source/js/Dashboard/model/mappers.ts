@@ -45,7 +45,7 @@ export function mapInnovationProjectToDashboardProject (project: WPProject): Das
         impactGoals: names(project.impact_goals, g => g.impact_goal),
         innovationPotentials: taxonomyNames(project.innovation_potential),
         operations: taxonomyNames(project.operation),
-        operationDomains: taxonomyNames(project.operation_domains),
+        operationDomains: taxonomyNames(project.operation_domain),
         organisations: taxonomyNames(project.organisation),
         participants: taxonomyNames(project.participants),
         partners: taxonomyNames(project.partner),
