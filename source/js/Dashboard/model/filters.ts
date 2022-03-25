@@ -7,6 +7,7 @@ export const createEmptyFilters = (): DashboardFilter => ({
     impactGoals: [],
     innovationPotentials: [],
     operations: [],
+    operationDomains: [],
     organisations: [],
     participants: [],
     partners: [],
