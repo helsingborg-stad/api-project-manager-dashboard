@@ -50,6 +50,11 @@ Thumbs.db
 dist/temp
 dist/.temp
 
+# ignore build folder
+build/
+build
+
+
 # -------------------------
 # BEGIN Whitelisted Files
 # -------------------------
@@ -57,3 +62,4 @@ dist/.temp
 # track these files, if they exist
 !.gitignore
 !.editorconfig
+!source/js

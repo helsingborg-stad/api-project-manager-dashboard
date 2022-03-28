@@ -16,7 +16,7 @@
 
 ## Table of Contents
 - [Table of Contents](#table-of-contents)
-- [About API Project Manager Dashboard](#about-API Project Manager Dashboard)
+- [About API Project Manager Dashboard](#about-api-project-manager-dashboard)
   - [Built With](#built-with)
 - [Getting Started](#getting-started)
   - [Prerequisites](#prerequisites)
@@ -73,9 +73,12 @@ composer install
 
 ## Usage
 
-Use this space to show useful examples of how a project can be used. Additional screenshots, code examples and demos work well in this space. You may also link to more resources.
+Mount **App.tsx** on your page, providing configuation on host page like
 
-_For more examples, please refer to the [Documentation](https://example.com)_
+```html
+      <div data-dashboard-api-endpoint="https://beta.api.helsingborg.se/innovation/wp-json/wp/v2/project"></div>
+      <div data-dashboard-content-endpoint="https://innovation.hbgtest.se/initiativ"></div>
+```
 
 ## Deploy
 

@@ -1,0 +1,1 @@
+<div class="{{$classNames}}" data-api-endpoint="{{$apiEndpoint}}" data-content-endpoint="{{$contentEndpoint}}"></div>
