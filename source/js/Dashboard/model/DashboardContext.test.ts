@@ -7,6 +7,7 @@ const createEmptyProject = (): DashboardProject => ({
     summary: {
         title: '', created: new Date(), modified: new Date(), isCityWide: false, isChallengingCoreBusiness: false
     },
+    wp: undefined,
     challengeCategories: [],
     challenges: [],
     expectedImpacts: [],

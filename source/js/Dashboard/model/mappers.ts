@@ -37,7 +37,7 @@ export function mapInnovationProjectToDashboardProject (project: WPProject): Das
             isCityWide: project.city_wide_initiative,
             isChallengingCoreBusiness: project.challenging_the_core_business
         },
-
+        wp: project,
         challengeCategories: taxonomyNames(project.challenge_category),
         challenges: singleName(project.challenge?.post_title),
         expectedImpacts: taxonomyNames(project.expected_impact),

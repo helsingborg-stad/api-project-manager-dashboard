@@ -24,7 +24,7 @@ export default function ProjectList () {
                 'Titel', 'Skapad', 'Uppdaterad', 'Summa beviljade medel', 'Summa använda medel', 
                 'Stadsgemensamt', 'Utmanar kärnverksamhet',
                 'Utmaningskategorier', 'Utmaningar',
-                'Föväntad effekt', 'Mål', 'Effektmål',
+                'Föväntad effekt', 'Mål', 'Effektmål', 'Effektmål kommentar',
                 'Innovationshöjd', 'Verksamhetsområde', 'Verksamhet', 'Organisationer', 'Deltagare', 'Partners', 'Sektorer', 'Status', 'Teknologier'
             ]
         ]
@@ -42,6 +42,7 @@ export default function ProjectList () {
                 project.expectedImpacts.join(';'),
                 project.globalGoals.join(';'),
                 project.impactGoals.join(';'),
+                project?.wp?.impact_goals?.map(goal => goal.impact_goal_comment).filter(v => v).join(';') || '',
                 project.innovationPotentials.join(';'),
                 project.operationDomains.join(';'),
                 project.operations.join(';'),
@@ -51,7 +52,7 @@ export default function ProjectList () {
                 project.sectors.join(';'),
                 project.status.join(';'),
                 project.technologies.join(';')
-            ]))
+            ].map(v => v && v.replace(/\t/, ' ').replace(/\r/, '').replace(/\n/, ''))))
         return headerRows
             .concat(dataRows)
             .map(columns => columns.join('\t'))

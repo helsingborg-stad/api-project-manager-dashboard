@@ -1,3 +1,5 @@
+import { WPProject } from "../../innovation-api-client/InnovationProjectRepository"
+
 /**
  * Common layout for projects and filters
  */
@@ -24,7 +26,8 @@ export interface DashboardProject extends DashboardProjectDataProps<string[]> {
     slug: string,
     fundsGranted: number,
     fundsUsed: number,
-    summary: DashboardProjectSummary
+    summary: DashboardProjectSummary,
+    wp?: WPProject
 }
 
 export interface DashboardProjectSummary {
