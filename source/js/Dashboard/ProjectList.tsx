@@ -27,7 +27,6 @@ export default function ProjectList () {
                 'Föväntad effekt', 'Mål', 'Effektmål', 'Effektmål kommentar',
                 'Innovationshöjd', 'Verksamhetsområde', 'Verksamhet', 'Organisationer', 'Deltagare', 'Partners', 'Sektorer', 'Status', 'Teknologier'
             ]
-            .map(s => `"${s}"`)
         ]
 
         const dataRows = graph.projects
@@ -56,11 +55,11 @@ export default function ProjectList () {
                 project.technologies.join(';')
             ]
             .map(v => v && v.replace(/\t/, ' ').replace(/\r/, '').replace(/\n/, ''))
-            .map(v => `"${v}"`)
         ))
             
         return headerRows
             .concat(dataRows)
+            .map(columns => columns.map(c => `"${c}"`))
             .map(columns => columns.join(';'))
             .join('\r\n')
     }
