@@ -27,7 +27,9 @@ export default function ProjectList () {
                 'Föväntad effekt', 'Mål', 'Effektmål', 'Effektmål kommentar',
                 'Innovationshöjd', 'Verksamhetsområde', 'Verksamhet', 'Organisationer', 'Deltagare', 'Partners', 'Sektorer', 'Status', 'Teknologier'
             ]
+            .map(s => `"${s}"`)
         ]
+
         const dataRows = graph.projects
             .map(project => ([
                 project.summary.title,
@@ -52,19 +54,24 @@ export default function ProjectList () {
                 project.sectors.join(';'),
                 project.status.join(';'),
                 project.technologies.join(';')
-            ].map(v => v && v.replace(/\t/, ' ').replace(/\r/, '').replace(/\n/, ''))))
+            ]
+            .map(v => v && v.replace(/\t/, ' ').replace(/\r/, '').replace(/\n/, ''))
+            .map(v => `"${v}"`)
+        ))
+            
         return headerRows
             .concat(dataRows)
-            .map(columns => columns.join('\t'))
+            .map(columns => columns.join(';'))
             .join('\r\n')
     }
 
     const downloadCsv = (filename: string) => {
-        const blob = new Blob(["\uFEFF"+createCsvContent()], {type: 'text/csv;charset=utf-8'});
+        const blob = new Blob(["\uFEFF", createCsvContent()], {type: 'text/csv;charset=utf-8'});
         const elem = window.document.createElement('a');
         elem.href = window.URL.createObjectURL(blob);
         elem.download = filename;        
         document.body.appendChild(elem);
+    
         elem.click();        
         document.body.removeChild(elem);
     /*
