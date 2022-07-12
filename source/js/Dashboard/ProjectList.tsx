@@ -60,7 +60,7 @@ export default function ProjectList () {
     }
 
     const downloadCsv = (filename: string) => {
-        const blob = new Blob([createCsvContent()], {type: 'text/tsv'});
+        const blob = new Blob(["\uFEFF"+createCsvContent()], {type: 'text/csv;charset=utf-8'});
         const elem = window.document.createElement('a');
         elem.href = window.URL.createObjectURL(blob);
         elem.download = filename;        
